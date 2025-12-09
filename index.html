@@ -1,37 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>stubbyfowl's Website</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 800px;
-            margin: auto;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        iframe {
-            border: none;
-            width: 100%;
-            height: 700px; /* You can change the height */
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stubbyfowl — Minimalist Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+    }
+
+    header {
+      padding: 30px 0;
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    nav {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    nav button {
+      background: none;
+      border: 2px solid #fff;
+      padding: 10px 18px;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    nav button:hover {
+      background: #fff;
+      color: #111;
+    }
+
+    section {
+      padding: 80px 20px;
+      min-height: 60vh;
+    }
+
+    #about { background: #111; }
+    #mods { background: #181818; }
+    #contact { background: #111; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>WEBSITE IS WIP</h1>
-        <p>Placeholder</p>
-    </div>
+  <header>Stubbyfowl</header>
+
+  <nav>
+    <button onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'});">About</button>
+    <button onclick="document.getElementById('mods').scrollIntoView({behavior: 'smooth'});">Mods</button>
+    <button onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'});">Contact</button>
+  </nav>
+
+  <section id="about">
+    <h2>About Stubbyfowl</h2>
+    <p>Stubbyfowl loves jailbreaking, modding consoles, and exploring the limits of software and hardware.</p>
+  </section>
+
+  <section id="mods">
+    <h2>Jailbreaks & Mods</h2>
+    <p>A collection of tips, tools, and projects related to iOS jailbreaking, console modding, and more.</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>If you want to reach out to Stubbyfowl, drop a message or share your own modding adventures.</p>
+  </section>
+
 </body>
 </html>
