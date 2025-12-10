@@ -85,10 +85,11 @@
 <script>
   const guy = document.getElementById("shimeji");
 
-  // Prevent default image drag
+  // Prevent browser image dragging
   guy.ondragstart = (e) => e.preventDefault();
   guy.style.userSelect = "none";
 
+  // Position and physics
   let x = 100;
   let y = window.innerHeight - 80;
   let vx = 1.5;
@@ -97,37 +98,53 @@
   let onGround = false;
   let dragging = false;
 
+  // Dragging offsets
   let offsetX = 0;
   let offsetY = 0;
-  let lastMouseX = 0;
-  let lastMouseY = 0;
+
+  // Mouse velocity tracking for throwing
+  let prevMouseX = 0;
+  let prevMouseY = 0;
+  let mouseVX = 0;
+  let mouseVY = 0;
 
   // --- DRAGGING ---
   guy.addEventListener("mousedown", e => {
     dragging = true;
     offsetX = e.clientX - x;
     offsetY = e.clientY - y;
-    lastMouseX = e.clientX;
-    lastMouseY = e.clientY;
-    guy.style.transform = "scale(0.9)";
-  });
 
-  window.addEventListener("mouseup", e => {
-    if (dragging) {
-      dragging = false;
-      guy.style.transform = "scale(1)";
-      // Throw velocity based on mouse movement
-      vx = (e.clientX - lastMouseX) * 0.2;
-      vy = (e.clientY - lastMouseY) * 0.2;
-    }
+    // reset velocity tracking
+    prevMouseX = e.clientX;
+    prevMouseY = e.clientY;
+    mouseVX = 0;
+    mouseVY = 0;
+
+    guy.style.transform = "scale(0.9)";
   });
 
   window.addEventListener("mousemove", e => {
     if (dragging) {
       x = e.clientX - offsetX;
       y = e.clientY - offsetY;
-      lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
+
+      // calculate mouse velocity
+      mouseVX = e.clientX - prevMouseX;
+      mouseVY = e.clientY - prevMouseY;
+
+      prevMouseX = e.clientX;
+      prevMouseY = e.clientY;
+    }
+  });
+
+  window.addEventListener("mouseup", e => {
+    if (dragging) {
+      dragging = false;
+      guy.style.transform = "scale(1)";
+
+      // apply throw velocity
+      vx = mouseVX * 0.5; // adjust multiplier if needed
+      vy = mouseVY * 0.5;
     }
   });
 
@@ -139,17 +156,17 @@
       y += vy;
       x += vx;
 
-      // friction / air resistance
+      // friction
       vx *= 0.98;
       vy *= 0.98;
 
-      // ground collision
-      if (y + 64 >= window.innerHeight) {
+      // ground collision (only if moving downward)
+      if (y + 64 >= window.innerHeight && vy > 0) {
         y = window.innerHeight - 64;
         vy *= -0.6; // bounce damping
         onGround = true;
 
-        // idle walking on the floor
+        // idle walking
         if (Math.random() < 0.01) vx += (Math.random() < 0.5 ? -1 : 1);
         // random jumps
         if (Math.random() < 0.005) vy = -10;
@@ -174,6 +191,7 @@
       }
     }
 
+    // update position
     guy.style.left = x + "px";
     guy.style.top = y + "px";
 
