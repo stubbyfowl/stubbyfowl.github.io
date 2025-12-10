@@ -85,12 +85,9 @@
 <script>
   const guy = document.getElementById("shimeji");
 
-// 1️⃣ Prevent default drag behavior
-guy.ondragstart = (e) => e.preventDefault();
-
-// 2️⃣ Optional: make sure the cursor can't select text/images while dragging
-guy.style.userSelect = "none";
-
+  // Prevent default image drag
+  guy.ondragstart = (e) => e.preventDefault();
+  guy.style.userSelect = "none";
 
   let x = 100;
   let y = window.innerHeight - 80;
@@ -119,6 +116,7 @@ guy.style.userSelect = "none";
     if (dragging) {
       dragging = false;
       guy.style.transform = "scale(1)";
+      // Throw velocity based on mouse movement
       vx = (e.clientX - lastMouseX) * 0.2;
       vy = (e.clientY - lastMouseY) * 0.2;
     }
@@ -141,14 +139,14 @@ guy.style.userSelect = "none";
       y += vy;
       x += vx;
 
-      // friction
+      // friction / air resistance
       vx *= 0.98;
       vy *= 0.98;
 
       // ground collision
       if (y + 64 >= window.innerHeight) {
         y = window.innerHeight - 64;
-        vy = 0;
+        vy *= -0.6; // bounce damping
         onGround = true;
 
         // idle walking on the floor
@@ -168,11 +166,11 @@ guy.style.userSelect = "none";
       // wall collisions
       if (x <= 0) {
         x = 0;
-        vx *= -1;
+        vx *= -0.6;
       }
       if (x + 64 >= window.innerWidth) {
         x = window.innerWidth - 64;
-        vx *= -1;
+        vx *= -0.6;
       }
     }
 
