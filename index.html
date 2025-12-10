@@ -170,6 +170,15 @@
 
     requestAnimationFrame(update);
   }
+// Flip sprite based on horizontal velocity
+if (vx > 0.5 && !facingRight) {
+  facingRight = true;
+  guy.style.transform = `scale(1) scaleX(1)`;
+}
+if (vx < -0.5 && facingRight) {
+  facingRight = false;
+  guy.style.transform = `scale(1) scaleX(-1)`;
+}
 
   update();
 </script>
