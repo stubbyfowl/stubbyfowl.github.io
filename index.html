@@ -64,6 +64,102 @@
     <a href="contact.html"><button>contact</button></a>
   </nav>
 
+  <style>
+  #shimeji {
+    position: fixed;
+    bottom: 0;
+    left: 100px;
+    width: 64px;
+    height: 64px;
+    user-select: none;
+    cursor: grab;
+    z-index: 999999;
+    transition: transform 0.1s;
+  }
+  #shimeji:active {
+    cursor: grabbing;
+  }
+</style>
+
+<img id="shimeji" src="images/littleguy.png">
+
+<script>
+  const guy = document.getElementById("shimeji");
+
+  let x = 100;
+  let y = window.innerHeight - 80;
+  let vx = 1.5;   // horizontal speed
+  let vy = 0;     // vertical speed
+  let gravity = 0.6;
+  let onGround = false;
+  let dragging = false;
+
+  // --- DRAGGING / THROWING ---
+  let lastMouseX = 0;
+  let lastMouseY = 0;
+
+  guy.addEventListener("mousedown", e => {
+    dragging = true;
+    lastMouseX = e.clientX;
+    lastMouseY = e.clientY;
+    guy.style.transform = "scale(0.9)";
+  });
+
+  window.addEventListener("mouseup", e => {
+    if (dragging) {
+      dragging = false;
+      guy.style.transform = "scale(1)";
+      vx = (e.clientX - lastMouseX) * 0.2;
+      vy = (e.clientY - lastMouseY) * 0.2;
+    }
+  });
+
+  window.addEventListener("mousemove", e => {
+    if (dragging) {
+      x = e.clientX - 32;
+      y = e.clientY - 32;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+    }
+  });
+
+  // --- PHYSICS LOOP ---
+  function update() {
+    if (!dragging) {
+      // gravity
+      vy += gravity;
+      y += vy;
+      x += vx;
+
+      // ground collision
+      if (y + 64 >= window.innerHeight) {
+        y = window.innerHeight - 64;
+        vy = 0;
+        onGround = true;
+      } else {
+        onGround = false;
+      }
+
+      // wall collisions
+      if (x <= 0) {
+        x = 0;
+        vx *= -1;
+      }
+      if (x + 64 >= window.innerWidth) {
+        x = window.innerWidth - 64;
+        vx *= -1;
+      }
+    }
+
+    guy.style.left = x + "px";
+    guy.style.top = y + "px";
+
+    requestAnimationFrame(update);
+  }
+
+  update();
+</script>
+
   
 
 </body>
