@@ -84,6 +84,8 @@
 
 <script>
   const guy = document.getElementById("shimeji");
+// Prevent the browser from dragging the image itself
+guy.ondragstart = (e) => e.preventDefault();
 
   let x = 100;
   let y = window.innerHeight - 80;
