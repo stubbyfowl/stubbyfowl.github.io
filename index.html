@@ -10,25 +10,18 @@
       font-family: Arial, sans-serif;
       background: #111;
       color: #fff;
-      overflow: hidden; /* disable normal scroll */
+      text-align: center;
     }
     header {
       padding: 30px 0;
       font-size: 36px;
       font-weight: bold;
-      text-align: center;
-      position: fixed;
-      width: 100%;
-      z-index: 10;
     }
     nav {
-      margin-top: 80px;
+      margin-top: 20px;
       display: flex;
       justify-content: center;
       gap: 20px;
-      position: fixed;
-      width: 100%;
-      z-index: 10;
     }
     nav button {
       background: none;
@@ -43,18 +36,10 @@
       background: #fff;
       color: #111;
     }
-
-    #world {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 5000px; /* start large, expand dynamically */
-      background: #111;
-    }
-
     #shimeji {
-      position: absolute;
+      position: fixed;
+      bottom: 0;
+      left: 100px;
       width: 64px;
       height: 64px;
       user-select: none;
@@ -62,7 +47,9 @@
       z-index: 999999;
       transition: transform 0.1s;
     }
-    #shimeji:active { cursor: grabbing; }
+    #shimeji:active {
+      cursor: grabbing;
+    }
   </style>
 </head>
 <body>
@@ -73,15 +60,13 @@
     <a href="contact.html"><button>contact</button></a>
   </nav>
 
-  <div id="world">
-    <img id="shimeji" src="images/littleguy.png" />
-  </div>
+  <img id="shimeji" src="images/littleguy.png">
 
 <script>
   const guy = document.getElementById("shimeji");
-  const world = document.getElementById("world");
 
   guy.ondragstart = e => e.preventDefault();
+  guy.style.userSelect = "none";
 
   let x = 100;
   let y = window.innerHeight - 80;
@@ -90,18 +75,26 @@
   const gravity = 0.6;
   let dragging = false;
 
-  let offsetX = 0, offsetY = 0;
-  let prevMouseX = 0, prevMouseY = 0;
-  let mouseVX = 0, mouseVY = 0;
+  let offsetX = 0;
+  let offsetY = 0;
 
-  let moveLeft = false, moveRight = false;
+  let prevMouseX = 0;
+  let prevMouseY = 0;
+  let mouseVX = 0;
+  let mouseVY = 0;
 
-  // keyboard
+  // movement keys
+  let moveLeft = false;
+  let moveRight = false;
+
+  // keyboard listeners
   window.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft') moveLeft = true;
     if (e.key === 'ArrowRight') moveRight = true;
     if (e.key === 'ArrowUp') {
-      if (y + 64 >= window.innerHeight - 1) vy = -12;
+      if (y + 64 >= window.innerHeight - 1) {
+        vy = -12; // jump
+      }
     }
   });
 
@@ -112,7 +105,7 @@
 
   guy.addEventListener("mousedown", e => {
     dragging = true;
-    offsetX = e.clientX + cameraX - x;
+    offsetX = e.clientX - x;
     offsetY = e.clientY - y;
     prevMouseX = e.clientX;
     prevMouseY = e.clientY;
@@ -123,7 +116,7 @@
 
   window.addEventListener("mousemove", e => {
     if (dragging) {
-      x = e.clientX + cameraX - offsetX;
+      x = e.clientX - offsetX;
       y = e.clientY - offsetY;
       mouseVX = e.clientX - prevMouseX;
       mouseVY = e.clientY - prevMouseY;
@@ -141,11 +134,9 @@
     }
   });
 
-  // camera
-  let cameraX = 0;
-
   function update() {
     if (!dragging) {
+      // keyboard movement
       if (moveLeft) vx -= 0.5;
       if (moveRight) vx += 0.5;
 
@@ -156,29 +147,23 @@
       vx *= 0.98;
       vy *= 0.98;
 
-      // expand world dynamically
-      if (x + 200 > world.offsetWidth) {
-        world.style.width = world.offsetWidth + 1000 + "px";
-      }
-      if (x < 200) {
-        const extra = 1000;
-        world.style.width = world.offsetWidth + extra + "px";
-        x += extra;
-        cameraX += extra;
-      }
-
-      // floor
-      if (y + 64 >= window.innerHeight) {
+      if (y + 64 >= window.innerHeight && vy > 0) {
         y = window.innerHeight - 64;
         vy *= -0.6;
       }
+      if (y <= 0) {
+        y = 0;
+        vy *= -0.6;
+      }
+      if (x <= 0) {
+        x = 0;
+        vx *= -0.6;
+      }
+      if (x + 64 >= window.innerWidth) {
+        x = window.innerWidth - 64;
+        vx *= -0.6;
+      }
     }
-
-    // camera follows guy
-    cameraX = x - window.innerWidth / 2 + 32;
-    if (cameraX < 0) cameraX = 0;
-
-    world.style.left = -cameraX + "px";
 
     guy.style.left = x + "px";
     guy.style.top = y + "px";
