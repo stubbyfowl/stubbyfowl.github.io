@@ -63,8 +63,7 @@
     <a href="mods.html"><button>mods</button></a>
     <a href="contact.html"><button>contact</button></a>
   </nav>
-
-  <style>
+<style>
   #shimeji {
     position: fixed;
     bottom: 0;
@@ -88,18 +87,22 @@
 
   let x = 100;
   let y = window.innerHeight - 80;
-  let vx = 1.5;   // horizontal speed
-  let vy = 0;     // vertical speed
+  let vx = 1.5;
+  let vy = 0;
   let gravity = 0.6;
   let onGround = false;
   let dragging = false;
 
-  // --- DRAGGING / THROWING ---
+  let offsetX = 0;
+  let offsetY = 0;
   let lastMouseX = 0;
   let lastMouseY = 0;
 
+  // --- DRAGGING ---
   guy.addEventListener("mousedown", e => {
     dragging = true;
+    offsetX = e.clientX - x;
+    offsetY = e.clientY - y;
     lastMouseX = e.clientX;
     lastMouseY = e.clientY;
     guy.style.transform = "scale(0.9)";
@@ -116,8 +119,8 @@
 
   window.addEventListener("mousemove", e => {
     if (dragging) {
-      x = e.clientX - 32;
-      y = e.clientY - 32;
+      x = e.clientX - offsetX;
+      y = e.clientY - offsetY;
       lastMouseX = e.clientX;
       lastMouseY = e.clientY;
     }
@@ -131,13 +134,28 @@
       y += vy;
       x += vx;
 
+      // friction
+      vx *= 0.98;
+      vy *= 0.98;
+
       // ground collision
       if (y + 64 >= window.innerHeight) {
         y = window.innerHeight - 64;
         vy = 0;
         onGround = true;
+
+        // idle walking on the floor
+        if (Math.random() < 0.01) vx += (Math.random() < 0.5 ? -1 : 1);
+        // random jumps
+        if (Math.random() < 0.005) vy = -10;
       } else {
         onGround = false;
+      }
+
+      // ceiling collision
+      if (y <= 0) {
+        y = 0;
+        vy *= -0.6;
       }
 
       // wall collisions
@@ -159,8 +177,6 @@
 
   update();
 </script>
-
-  
 
 </body>
 </html>
