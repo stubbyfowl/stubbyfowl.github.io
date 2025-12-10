@@ -1,10 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>stubbyfowl</title>
@@ -16,20 +12,17 @@
       color: #fff;
       text-align: center;
     }
-
     header {
       padding: 30px 0;
       font-size: 36px;
       font-weight: bold;
     }
-
     nav {
       margin-top: 20px;
       display: flex;
       justify-content: center;
       gap: 20px;
     }
-
     nav button {
       background: none;
       border: 2px solid #fff;
@@ -39,87 +32,85 @@
       border-radius: 6px;
       font-size: 16px;
     }
-
     nav button:hover {
       background: #fff;
       color: #111;
     }
-
-    section {
-      padding: 80px 20px;
-      min-height: 60vh;
+    #shimeji {
+      position: fixed;
+      bottom: 0;
+      left: 100px;
+      width: 64px;
+      height: 64px;
+      user-select: none;
+      cursor: grab;
+      z-index: 999999;
+      transition: transform 0.1s;
     }
-
-    #about { background: #111; }
-    #mods { background: #181818; }
-    #contact { background: #111; }
+    #shimeji:active {
+      cursor: grabbing;
+    }
   </style>
 </head>
 <body>
   <header>stubbyfowl</header>
-
   <nav>
     <a href="about.html"><button>about</button></a>
     <a href="mods.html"><button>mods</button></a>
     <a href="contact.html"><button>contact</button></a>
   </nav>
-<style>
-  #shimeji {
-    position: fixed;
-    bottom: 0;
-    left: 100px;
-    width: 64px;
-    height: 64px;
-    user-select: none;
-    cursor: grab;
-    z-index: 999999;
-    transition: transform 0.1s;
-  }
-  #shimeji:active {
-    cursor: grabbing;
-  }
-</style>
 
-<img id="shimeji" src="images/littleguy.png">
+  <img id="shimeji" src="images/littleguy.png">
 
 <script>
   const guy = document.getElementById("shimeji");
 
-  // Prevent browser image dragging
-  guy.ondragstart = (e) => e.preventDefault();
+  guy.ondragstart = e => e.preventDefault();
   guy.style.userSelect = "none";
 
-  // Position and physics
   let x = 100;
   let y = window.innerHeight - 80;
   let vx = 1.5;
   let vy = 0;
-  let gravity = 0.6;
-  let onGround = false;
+  const gravity = 0.6;
   let dragging = false;
 
-  // Dragging offsets
   let offsetX = 0;
   let offsetY = 0;
 
-  // Mouse velocity tracking for throwing
   let prevMouseX = 0;
   let prevMouseY = 0;
   let mouseVX = 0;
   let mouseVY = 0;
 
-  // --- DRAGGING ---
+  // movement keys
+  let moveLeft = false;
+  let moveRight = false;
+
+  // keyboard listeners
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') moveLeft = true;
+    if (e.key === 'ArrowRight') moveRight = true;
+    if (e.key === 'ArrowUp') {
+      if (y + 64 >= window.innerHeight - 1) {
+        vy = -12; // jump
+      }
+    }
+  });
+
+  window.addEventListener('keyup', e => {
+    if (e.key === 'ArrowLeft') moveLeft = false;
+    if (e.key === 'ArrowRight') moveRight = false;
+  });
+
   guy.addEventListener("mousedown", e => {
     dragging = true;
     offsetX = e.clientX - x;
     offsetY = e.clientY - y;
-
-    // reset velocity tracking
     prevMouseX = e.clientX;
     prevMouseY = e.clientY;
     mouseVX = 0;
     mouseVY = 0;
-
     guy.style.transform = "scale(0.9)";
   });
 
@@ -127,60 +118,43 @@
     if (dragging) {
       x = e.clientX - offsetX;
       y = e.clientY - offsetY;
-
-      // calculate mouse velocity
       mouseVX = e.clientX - prevMouseX;
       mouseVY = e.clientY - prevMouseY;
-
       prevMouseX = e.clientX;
       prevMouseY = e.clientY;
     }
   });
 
-  window.addEventListener("mouseup", e => {
+  window.addEventListener("mouseup", () => {
     if (dragging) {
       dragging = false;
       guy.style.transform = "scale(1)";
-
-      // apply throw velocity
-      vx = mouseVX * 0.5; // adjust multiplier if needed
+      vx = mouseVX * 0.5;
       vy = mouseVY * 0.5;
     }
   });
 
-  // --- PHYSICS LOOP ---
   function update() {
     if (!dragging) {
-      // gravity
+      // keyboard movement
+      if (moveLeft) vx -= 0.5;
+      if (moveRight) vx += 0.5;
+
       vy += gravity;
       y += vy;
       x += vx;
 
-      // friction
       vx *= 0.98;
       vy *= 0.98;
 
-      // ground collision (only if moving downward)
       if (y + 64 >= window.innerHeight && vy > 0) {
         y = window.innerHeight - 64;
-        vy *= -0.6; // bounce damping
-        onGround = true;
-
-        // idle walking
-        if (Math.random() < 0.01) vx += (Math.random() < 0.5 ? -1 : 1);
-        // random jumps
-        if (Math.random() < 0.005) vy = -10;
-      } else {
-        onGround = false;
+        vy *= -0.6;
       }
-
-      // ceiling collision
       if (y <= 0) {
         y = 0;
         vy *= -0.6;
       }
-
-      // wall collisions
       if (x <= 0) {
         x = 0;
         vx *= -0.6;
@@ -191,7 +165,6 @@
       }
     }
 
-    // update position
     guy.style.left = x + "px";
     guy.style.top = y + "px";
 
@@ -200,6 +173,5 @@
 
   update();
 </script>
-
 </body>
 </html>
