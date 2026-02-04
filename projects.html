@@ -9,84 +9,342 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>projects</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
       margin: 0;
-      background: #111;
-      color: #fff;
-      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #000;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      padding: 40px 20px;
+      padding: 60px 20px;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
     }
-    a { color: #fff; }
-
+    
+    /* Animated gradient background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 25% 35%, rgba(0, 0, 0, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 75% 65%, rgba(0, 0, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 50% 15%, rgba(0, 0, 0, 0.04) 0%, transparent 50%);
+      animation: gradientShift 15s ease infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(-5%, -5%) rotate(120deg); }
+      66% { transform: translate(5%, 5%) rotate(240deg); }
+    }
+    
+    /* Floating orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.04));
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 2px solid rgba(0, 0, 0, 0.15);
+      pointer-events: none;
+      animation: float 20s ease-in-out infinite;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -10px 30px rgba(0, 0, 0, 0.05);
+      z-index: 1;
+    }
+    
+    .orb:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: 8%;
+      animation-delay: 0s;
+    }
+    
+    .orb:nth-child(2) {
+      width: 220px;
+      height: 220px;
+      top: 55%;
+      right: 12%;
+      animation-delay: -7s;
+    }
+    
+    .orb:nth-child(3) {
+      width: 180px;
+      height: 180px;
+      bottom: 20%;
+      left: 55%;
+      animation-delay: -14s;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(40px, -40px) scale(1.15);
+      }
+      66% {
+        transform: translate(-30px, 30px) scale(0.85);
+      }
+    }
+    
+    /* Content container */
+    .content-wrapper {
+      position: relative;
+      z-index: 2;
+    }
+    
+    h1 {
+      font-size: 64px;
+      font-weight: 700;
+      letter-spacing: 6px;
+      margin: 0 0 60px;
+      background: linear-gradient(135deg, #000 0%, #333 50%, #000 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: lowercase;
+      animation: fadeInDown 0.8s ease;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    }
+    
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    a { 
+      color: #000;
+      text-decoration: none;
+    }
+    
     .project {
       margin: 40px auto;
-      max-width: 600px;
+      max-width: 700px;
       text-align: left;
-      background: #181818;
-      padding: 20px;
-      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      padding: 32px;
+      border-radius: 24px;
+      border: 2px solid rgba(0, 0, 0, 0.15);
+      box-shadow: 
+        0 16px 50px rgba(0, 0, 0, 0.12),
+        inset 0 2px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -3px 12px rgba(0, 0, 0, 0.05);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeInUp 0.8s ease both;
+      position: relative;
+      overflow: hidden;
     }
-
+    
+    .project::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent);
+      transition: left 0.6s;
+    }
+    
+    .project:hover::before {
+      left: 100%;
+    }
+    
+    .project:nth-child(2) { animation-delay: 0.1s; }
+    .project:nth-child(3) { animation-delay: 0.2s; }
+    .project:nth-child(4) { animation-delay: 0.3s; }
+    .project:nth-child(5) { animation-delay: 0.4s; }
+    .project:nth-child(6) { animation-delay: 0.5s; }
+    .project:nth-child(7) { animation-delay: 0.6s; }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .project:hover {
+      background: rgba(0, 0, 0, 0.1);
+      border-color: rgba(0, 0, 0, 0.25);
+      box-shadow: 
+        0 20px 65px rgba(0, 0, 0, 0.18),
+        inset 0 2px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -3px 16px rgba(0, 0, 0, 0.08);
+      transform: translateY(-6px) scale(1.01);
+    }
+    
     .project img {
-      width: 300px;        /* uniform width */
-      height: auto;        /* keep aspect ratio */
-      display: block;      /* center image */
-      margin: 0 auto 15px; /* bottom spacing */
-      border-radius: 10px;
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      display: block;
+      margin: 0 auto 24px;
+      border-radius: 16px;
+      border: 2px solid rgba(0, 0, 0, 0.12);
+      box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
+    
+    .project:hover img {
+      box-shadow: 
+        0 16px 50px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      transform: scale(1.02);
+    }
+    
     .project h2 {
-      margin-top: 0;
-      color: #fff;
+      margin: 0 0 16px;
+      color: #000;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: lowercase;
     }
-
+    
     .project p {
-      color: #ccc;
-      line-height: 1.5;
+      color: #222;
+      line-height: 1.8;
+      font-size: 17px;
+      margin: 0;
+    }
+    
+    .back-link {
+      margin-top: 70px;
+      display: inline-block;
+      animation: fadeInUp 0.8s ease 0.7s both;
+    }
+    
+    .back-link a {
+      font-weight: 600;
+      font-size: 20px;
+      letter-spacing: 1px;
+      display: inline-block;
+      padding: 18px 40px;
+      background: rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.12),
+        inset 0 2px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -2px 8px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .back-link a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.15), transparent);
+      transition: left 0.5s;
+    }
+    
+    .back-link a:hover::before {
+      left: 100%;
+    }
+    
+    .back-link a:hover {
+      background: rgba(0, 0, 0, 0.15);
+      border-color: rgba(0, 0, 0, 0.5);
+      box-shadow: 
+        0 16px 56px rgba(0, 0, 0, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -2px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-4px) scale(1.02);
+    }
+    
+    .back-link a:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 6px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 <body>
-  <h1>projects</h1>
-
-  <!-- Project cards -->
-  <div class="project">
-    <img src="images/project1.jpeg" alt="Project 1">
-    <h2>dopamine jailbreak on iPhone 7</h2>
-    <p>installed TrollStore, Dopamine, and Sileo on iOS 15.8.3. tested tweaks and theme setups.</p>
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+  
+  <div class="content-wrapper">
+    <h1>projects</h1>
+    
+    <!-- Project cards -->
+    <div class="project">
+      <img src="images/project1.jpeg" alt="Project 1">
+      <h2>dopamine jailbreak on iPhone 7</h2>
+      <p>installed TrollStore, Dopamine, and Sileo on iOS 15.8.3. tested tweaks and theme setups.</p>
+    </div>
+    
+    <div class="project">
+      <img src="images/project2.jpeg" alt="Project 2">
+      <h2>3DS CFW</h2>
+      <p>modded a New 3DS XL with Luma3DS, setup custom themes, and installed games</p>
+    </div>
+    
+    <div class="project">
+      <img src="images/project3.jpeg" alt="Project 3">
+      <h2>PS3 slim CFW</h2>
+      <p>used usb a drive and online software to install games and emulators</p>
+    </div>
+    
+    <div class="project">
+      <img src="images/project4.jpeg" alt="Project 4">
+      <h2>switch CFW</h2>
+      <p>made an rcm jig out of super thin aluminum and gum wrapping, took me an hour, but then it turns out my switch wasn't the right model :(</p>
+    </div>
+    
+    <div class="project">
+      <img src="images/project5.jpeg" alt="Project 5">
+      <h2>skylight calendar adb</h2>
+      <p>used adb tools to install a launcher, apps, and new features onto skylight calendar</p>
+    </div>
+    
+    <div class="project">
+      <img src="images/project6.jpeg" alt="Project 6">
+      <h2>ds lite r4 card</h2>
+      <p>nothing much really, just nds files on a ds lite, learned that nes emulation on ds lite is lousy</p>
+    </div>
+    
+    <p class="back-link"><a href="index.html">← back home</a></p>
   </div>
-
-  <div class="project">
-    <img src="images/project2.jpeg" alt="Project 2">
-    <h2>3DS CFW</h2>
-    <p>modded a New 3DS XL with Luma3DS, setup custom themes, and installed games</p>
-  </div>
-
-  <div class="project">
-    <img src="images/project3.jpeg" alt="Project 3">
-    <h2>PS3 slim CFW</h2>
-    <p>used usb a drive and online software to install games and emulators</p>
-  </div>
-
-  <div class="project">
-    <img src="images/project4.jpeg" alt="Project 4">
-    <h2>switch CFW</h2>
-    <p>made an rcm jig out of super thin aluminum and gum wrapping, took me an hour, but then it turns out my switch wasn't the right model :(</p>
-  </div>
-
-  <div class="project">
-    <img src="images/project5.jpeg" alt="Project 5">
-    <h2>skylight calendar adb</h2>
-    <p>used adb tools to install a launcher, apps, and new features onto skylight calendar</p>
-  </div>
-
-  <div class="project">
-    <img src="images/project6.jpeg" alt="Project 6">
-    <h2>ds lite r4 card</h2>
-    <p>nothing much really, just nds files on a ds lite, learned that nes emulation on ds lite is lousy</p>
-  </div>
-
-  <p style="margin-top:50px;"><a href="index.html">← back home</a></p>
 </body>
 </html>
