@@ -9,27 +9,273 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>about</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
       margin: 0;
-      background: #111;
-      color: #fff;
-      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #000;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      padding: 40px;
+      padding: 60px 40px;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
     }
-    a { color: #fff; }
+    
+    /* Animated gradient background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(0, 0, 0, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 50% 10%, rgba(0, 0, 0, 0.04) 0%, transparent 50%);
+      animation: gradientShift 15s ease infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    @keyframes gradientShift {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(-5%, -5%) rotate(120deg); }
+      66% { transform: translate(5%, 5%) rotate(240deg); }
+    }
+    
+    /* Floating orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.04));
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 2px solid rgba(0, 0, 0, 0.15);
+      pointer-events: none;
+      animation: float 20s ease-in-out infinite;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -10px 30px rgba(0, 0, 0, 0.05);
+      z-index: 1;
+    }
+    
+    .orb:nth-child(1) {
+      width: 280px;
+      height: 280px;
+      top: 15%;
+      left: 5%;
+      animation-delay: 0s;
+    }
+    
+    .orb:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      right: 10%;
+      animation-delay: -7s;
+    }
+    
+    .orb:nth-child(3) {
+      width: 150px;
+      height: 150px;
+      bottom: 15%;
+      left: 50%;
+      animation-delay: -14s;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(40px, -40px) scale(1.15);
+      }
+      66% {
+        transform: translate(-30px, 30px) scale(0.85);
+      }
+    }
+    
+    /* Content container */
+    .content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin: 50px 0 24px;
+      background: linear-gradient(135deg, #000 0%, #333 50%, #000 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: lowercase;
+      animation: fadeInUp 0.8s ease both;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    }
+    
+    h1:first-of-type {
+      font-size: 56px;
+      margin-top: 0;
+      letter-spacing: 4px;
+      animation-delay: 0.1s;
+    }
+    
+    h1:nth-of-type(2) {
+      animation-delay: 0.3s;
+    }
+    
+    h1:nth-of-type(3) {
+      animation-delay: 0.5s;
+    }
+    
+    h1:nth-of-type(4) {
+      animation-delay: 0.7s;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    p {
+      font-size: 19px;
+      line-height: 1.8;
+      margin: 0 0 30px;
+      background: rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 2px solid rgba(0, 0, 0, 0.12);
+      border-radius: 20px;
+      padding: 20px 32px;
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.1),
+        inset 0 2px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.04);
+      animation: fadeInUp 0.8s ease both;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    p:nth-of-type(1) {
+      animation-delay: 0.2s;
+    }
+    
+    p:nth-of-type(2) {
+      animation-delay: 0.4s;
+    }
+    
+    p:nth-of-type(3) {
+      animation-delay: 0.6s;
+    }
+    
+    p:nth-of-type(4) {
+      animation-delay: 0.8s;
+    }
+    
+    p:hover {
+      background: rgba(0, 0, 0, 0.1);
+      border-color: rgba(0, 0, 0, 0.2);
+      box-shadow: 
+        0 14px 50px rgba(0, 0, 0, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -2px 12px rgba(0, 0, 0, 0.06);
+      transform: translateY(-2px);
+    }
+    
+    a {
+      color: #000;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 20px;
+      letter-spacing: 1px;
+      display: inline-block;
+      padding: 18px 40px;
+      background: rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      margin-top: 40px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.12),
+        inset 0 2px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -2px 8px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.8s ease 1s both;
+    }
+    
+    a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.15), transparent);
+      transition: left 0.5s;
+    }
+    
+    a:hover::before {
+      left: 100%;
+    }
+    
+    a:hover {
+      background: rgba(0, 0, 0, 0.15);
+      border-color: rgba(0, 0, 0, 0.5);
+      box-shadow: 
+        0 16px 56px rgba(0, 0, 0, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.6),
+        inset 0 -2px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-4px) scale(1.02);
+    }
+    
+    a:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 6px rgba(0, 0, 0, 0.1);
+    }
   </style>
 </head>
 <body>
-  <h1>about stubbyfowl</h1>
-  <p>i like to mess around with computers and things</p>
-  <h1>my favorite food:</h1>
-  <p> orange chicken and beijing beef or tonkutsu ramen</p>
-  <h1>my favorite video game:</h1>
-  <p> sonic 3 and knuckles for the sega genesis but specifically sonic origins edition, even though it's glitchy<p>
-  <h1>why did i make the website</h1>
-  <p> 4fun</p>
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
   
-  <p><a href="index.html">← back home</a></p>
+  <div class="content">
+    <h1>about stubbyfowl</h1>
+    <p>i like to mess around with computers and things</p>
+    
+    <h1>my favorite food:</h1>
+    <p>orange chicken and beijing beef or tonkutsu ramen</p>
+    
+    <h1>my favorite video game:</h1>
+    <p>sonic 3 and knuckles for the sega genesis but specifically sonic origins edition, even though it's glitchy</p>
+    
+    <h1>why did i make the website</h1>
+    <p>4fun</p>
+    
+    <p><a href="index.html">← back home</a></p>
+  </div>
 </body>
 </html>
