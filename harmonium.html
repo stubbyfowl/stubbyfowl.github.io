@@ -3,122 +3,205 @@
 <head>
     <title>harmonium</title>
     <style>
+        @font-face {
+            font-family: 'CC Wild Words';
+            src: local('CC Wild Words Roman'), local('CCWildWordsRoman'), local('CC Wild Words');
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            min-height: 100vh;
-            background: #111;
-            color: #fff;
-            font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+            margin: 0;
+            font-family: 'CC Wild Words', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #000;
             text-align: center;
-            padding: 40px 20px 50px;
             overflow-x: hidden;
+            min-height: 100vh;
             position: relative;
             user-select: none;
         }
 
+        /* Animated gradient background — same as index */
         body::before {
             content: '';
             position: fixed;
-            width: 900px; height: 900px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
-            top: 50%; left: 50%;
-            transform: translate(-50%, -60%);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(0,0,0,0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0,0,0,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0,0,0,0.04) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
             pointer-events: none;
         }
 
-        h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            color: rgba(255,255,255,0.92);
-            margin-bottom: 6px;
+        @keyframes gradientShift {
+            0%, 100% { transform: translate(0,0) rotate(0deg); }
+            33%  { transform: translate(-5%,-5%) rotate(120deg); }
+            66%  { transform: translate(5%,5%) rotate(240deg); }
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(0,0,0,0.12), rgba(0,0,0,0.04));
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 2px solid rgba(0,0,0,0.15);
+            pointer-events: none;
+            animation: float 20s ease-in-out infinite;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.15),
+                inset 0 2px 0 rgba(255,255,255,0.8),
+                inset 0 -10px 30px rgba(0,0,0,0.05);
+        }
+        .orb:nth-child(1) { width:350px; height:350px; top:10%;    left:10%;  animation-delay:0s;   }
+        .orb:nth-child(2) { width:250px; height:250px; top:60%;    right:15%; animation-delay:-7s;  }
+        .orb:nth-child(3) { width:180px; height:180px; bottom:20%; left:60%;  animation-delay:-14s; }
+
+        @keyframes float {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33%     { transform: translate(40px,-40px) scale(1.15); }
+            66%     { transform: translate(-30px,30px) scale(0.85); }
+        }
+
+        /* Header — same style as index */
+        header {
+            padding: 60px 0 10px;
+            font-size: 72px;
+            font-weight: 700;
+            letter-spacing: 12px;
+            background: linear-gradient(135deg, #000 0%, #333 50%, #000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: lowercase;
+            animation: fadeInDown 1s ease;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+        }
+
+        @keyframes fadeInDown {
+            from { opacity:0; transform:translateY(-20px); }
+            to   { opacity:1; transform:translateY(0); }
         }
 
         #status-tip {
-            font-size: 0.78rem;
-            font-weight: 400;
-            color: rgba(255,255,255,0.35);
-            letter-spacing: 0.02em;
-            margin-bottom: 26px;
+            font-size: 1rem;
+            color: rgba(0,0,0,0.4);
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+            margin-top: 8px;
+            animation: fadeInUp 1s ease 0.1s both;
         }
-        #status-tip b { color: rgba(255,255,255,0.6); font-weight: 500; }
 
-        /* Bellows meter */
+        @keyframes fadeInUp {
+            from { opacity:0; transform:translateY(20px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        /* Bellows area */
         #bellows-wrap {
             margin: 0 auto 8px;
             width: 380px;
             max-width: 90vw;
+            animation: fadeInUp 1s ease 0.15s both;
         }
         #bellows-label {
-            font-size: 0.65rem;
-            font-weight: 500;
+            font-size: 0.8rem;
+            font-weight: 600;
             letter-spacing: 0.18em;
-            color: rgba(255,255,255,0.28);
-            text-transform: uppercase;
+            color: rgba(0,0,0,0.3);
+            text-transform: lowercase;
             text-align: left;
             margin-bottom: 7px;
         }
         #bellows-meter {
             width: 100%;
-            height: 6px;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.08);
-            border: 0.5px solid rgba(255,255,255,0.12);
+            height: 8px;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.12);
             overflow: hidden;
-            position: relative;
-            cursor: ns-resize;
         }
         #fill {
             height: 100%;
             width: 0%;
-            background: rgba(255,255,255,0.75);
-            border-radius: 10px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 20px;
             transition: width 0.05s linear;
-            box-shadow: 0 0 8px rgba(255,255,255,0.5);
+            box-shadow: 0 0 6px rgba(0,0,0,0.2);
         }
 
-        /* Manual bellows pump button */
+        /* Pump button — same glass style as nav buttons */
         #pump-btn {
-            margin: 14px auto 6px;
+            margin: 14px auto 4px;
             display: block;
             width: 380px;
             max-width: 90vw;
-            padding: 11px 0;
-            border-radius: 14px;
-            background: rgba(255,255,255,0.07);
-            border: 0.5px solid rgba(255,255,255,0.15);
+            padding: 16px 0;
+            border-radius: 20px;
+            background: rgba(0,0,0,0.08);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            color: rgba(255,255,255,0.55);
-            font-family: inherit;
-            font-size: 0.75rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            border: 2px solid rgba(0,0,0,0.3);
+            color: #000;
+            font-family: 'CC Wild Words', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: lowercase;
             cursor: pointer;
-            transition: background 0.1s, color 0.1s, transform 0.07s;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            box-shadow:
+                0 12px 40px 0 rgba(0,0,0,0.12),
+                inset 0 2px 0 0 rgba(255,255,255,0.5),
+                inset 0 -2px 8px 0 rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+        #pump-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.15), transparent);
+            transition: left 0.5s;
+        }
+        #pump-btn:hover::before { left: 100%; }
+        #pump-btn:hover {
+            background: rgba(0,0,0,0.15);
+            border-color: rgba(0,0,0,0.5);
+            box-shadow:
+                0 16px 56px 0 rgba(0,0,0,0.2),
+                inset 0 2px 0 0 rgba(255,255,255,0.6),
+                inset 0 -2px 12px 0 rgba(0,0,0,0.08);
+            transform: translateY(-4px) scale(1.02);
         }
         #pump-btn:active, #pump-btn.pumping {
-            background: rgba(255,255,255,0.18);
-            color: rgba(255,255,255,0.9);
-            transform: scale(0.98);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 6px rgba(0,0,0,0.4);
+            transform: translateY(0) scale(0.98);
+            background: rgba(0,0,0,0.18);
+            box-shadow:
+                0 6px 20px 0 rgba(0,0,0,0.15),
+                inset 0 1px 0 0 rgba(255,255,255,0.4),
+                inset 0 -1px 6px 0 rgba(0,0,0,0.1);
         }
 
         #ws-status {
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.18);
-            margin-bottom: 30px;
+            text-transform: lowercase;
+            color: rgba(0,0,0,0.22);
+            margin-bottom: 28px;
             margin-top: 4px;
         }
-        #ws-status.connected { color: rgba(255,255,255,0.4); }
+        #ws-status.connected { color: rgba(0,0,0,0.45); }
 
-        /* Piano shell */
+        /* Piano shell — glass card matching index orb aesthetic */
         .piano {
             display: flex;
             justify-content: center;
@@ -128,15 +211,16 @@
             padding: 24px 28px 38px;
             border-radius: 32px;
             position: relative;
-            background: rgba(255,255,255,0.055);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border: 0.5px solid rgba(255,255,255,0.18);
+            background: rgba(0,0,0,0.05);
+            backdrop-filter: blur(30px) saturate(160%);
+            -webkit-backdrop-filter: blur(30px) saturate(160%);
+            border: 2px solid rgba(0,0,0,0.12);
             box-shadow:
-                0 30px 80px rgba(0,0,0,0.55),
-                0 8px 24px rgba(0,0,0,0.35),
-                inset 0 1px 0 rgba(255,255,255,0.22),
-                inset 0 -1px 0 rgba(0,0,0,0.25);
+                0 30px 80px rgba(0,0,0,0.12),
+                0 8px 24px rgba(0,0,0,0.08),
+                inset 0 2px 0 rgba(255,255,255,0.7),
+                inset 0 -2px 0 rgba(0,0,0,0.06);
+            animation: fadeInUp 1s ease 0.25s both;
         }
 
         .piano::before {
@@ -144,8 +228,7 @@
             position: absolute;
             top: 0; left: 12%; right: 12%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
-            border-radius: 50%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
         }
 
         /* White keys */
@@ -163,23 +246,23 @@
             gap: 3px;
             cursor: pointer;
             transition: transform 0.07s ease, box-shadow 0.07s ease, background 0.07s ease;
-            background: rgba(255,255,255,0.09);
-            border: 0.5px solid rgba(255,255,255,0.16);
+            background: rgba(255,255,255,0.6);
+            border: 1.5px solid rgba(0,0,0,0.15);
             border-top: none;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             box-shadow:
-                0 6px 20px rgba(0,0,0,0.35),
-                inset 0 1px 0 rgba(255,255,255,0.2),
-                inset 0 -1px 0 rgba(0,0,0,0.15);
+                0 6px 20px rgba(0,0,0,0.1),
+                inset 0 2px 0 rgba(255,255,255,0.8),
+                inset 0 -2px 6px rgba(0,0,0,0.06);
         }
 
         .key::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 45%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            height: 40%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 100%);
             border-radius: 0 0 4px 4px;
             pointer-events: none;
         }
@@ -192,51 +275,55 @@
             margin-right: -18px;
             z-index: 2;
             border-radius: 0 0 10px 10px;
-            background: rgba(0,0,0,0.72);
-            border: 0.5px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.82);
+            border: 1.5px solid rgba(0,0,0,0.5);
             border-top: none;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             box-shadow:
-                0 10px 30px rgba(0,0,0,0.7),
-                inset 0 1px 0 rgba(255,255,255,0.1),
-                inset 0 -1px 0 rgba(0,0,0,0.5);
+                0 10px 30px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.15),
+                inset 0 -2px 6px rgba(0,0,0,0.4);
         }
-
         .black::before {
-            background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 50%);
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 50%);
         }
 
         .key .note-name {
-            font-size: 0.6rem;
-            font-weight: 500;
-            color: rgba(255,255,255,0.5);
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: rgba(0,0,0,0.5);
         }
-        .key .key-letter {
-            font-size: 0.48rem;
-            font-weight: 400;
-            color: rgba(255,255,255,0.22);
-            letter-spacing: 0.05em;
-        }
+        .black .note-name { color: rgba(255,255,255,0.45); }
 
+        .key .key-letter {
+            font-size: 0.5rem;
+            font-weight: 400;
+            color: rgba(0,0,0,0.25);
+        }
+        .black .key-letter { color: rgba(255,255,255,0.2); }
+
+        /* Active — pressed glass */
         .active {
             transform: translateY(4px) scale(0.975);
-            background: rgba(255,255,255,0.22) !important;
+            background: rgba(0,0,0,0.12) !important;
             box-shadow:
-                0 2px 8px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.45),
-                inset 0 0 20px rgba(255,255,255,0.08),
-                0 0 20px rgba(255,255,255,0.12) !important;
-            border-color: rgba(255,255,255,0.35) !important;
+                0 2px 8px rgba(0,0,0,0.15),
+                inset 0 2px 0 rgba(255,255,255,0.3),
+                inset 0 0 16px rgba(0,0,0,0.08) !important;
+            border-color: rgba(0,0,0,0.3) !important;
         }
-        .active .note-name { color: rgba(255,255,255,0.9) !important; }
-        .active .key-letter { color: rgba(255,255,255,0.45) !important; }
+        .black.active {
+            background: rgba(0,0,0,0.95) !important;
+        }
+        .active .note-name { color: rgba(0,0,0,0.8) !important; }
+        .black.active .note-name { color: rgba(255,255,255,0.7) !important; }
 
         .active::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.2) 0%, transparent 65%);
+            background: radial-gradient(ellipse at 50% 20%, rgba(0,0,0,0.1) 0%, transparent 65%);
             border-radius: inherit;
             pointer-events: none;
             animation: glassPress 0.3s ease-out forwards;
@@ -249,16 +336,20 @@
     </style>
 </head>
 <body>
-    <h1>i-harmonium</h1>
-    <p id="status-tip">Click to activate — then <b>hold the pump</b> while pressing keys</p>
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+
+    <header>harmonium</header>
+    <p id="status-tip">click to activate — then hold the pump while pressing keys</p>
 
     <div id="bellows-wrap">
-        <div id="bellows-label">Bellows</div>
+        <div id="bellows-label">bellows</div>
         <div id="bellows-meter"><div id="fill"></div></div>
     </div>
 
-    <button id="pump-btn">Hold to Pump</button>
-    <div id="ws-status">Lid sensor: not connected</div>
+    <button id="pump-btn">hold to pump</button>
+    <div id="ws-status"> Steel Ball Run March 19th!!!</div>
 
     <div class="piano">
         <div id="key-a" class="key"><span class="note-name">C</span><span class="key-letter">A</span></div>
@@ -284,22 +375,19 @@
         let isPumping = false;
         let wsConnected = false;
 
-        // ── Audio init ──────────────────────────────────────────
         const initAudio = () => {
             if (audioCtx) return;
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             masterGain = audioCtx.createGain();
             masterGain.gain.value = 0;
             masterGain.connect(audioCtx.destination);
-            document.getElementById('status-tip').innerHTML = 'Audio active — <b>hold pump</b> + press keys';
+            document.getElementById('status-tip').textContent = 'audio active — hold pump + press keys';
         };
 
         window.addEventListener('mousedown', initAudio);
         window.addEventListener('keydown', initAudio);
 
-        // ── Manual pump button ──────────────────────────────────
         const pumpBtn = document.getElementById('pump-btn');
-
         const startPump = () => { isPumping = true; pumpBtn.classList.add('pumping'); };
         const stopPump  = () => { isPumping = false; pumpBtn.classList.remove('pumping'); };
 
@@ -308,7 +396,6 @@
         window.addEventListener('mouseup',  stopPump);
         window.addEventListener('touchend', stopPump);
 
-        // ── Spacebar pumps too ──────────────────────────────────
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space' && !e.repeat) { e.preventDefault(); isPumping = true; }
         });
@@ -316,15 +403,14 @@
             if (e.code === 'Space') { isPumping = false; }
         });
 
-        // ── WebSocket (optional — lid sensor) ──────────────────
         let lastAngle = 0;
         try {
             const socket = new WebSocket('ws://localhost:8765');
             socket.onopen = () => {
                 wsConnected = true;
-                document.getElementById('ws-status').textContent = 'Lid sensor: connected';
+                document.getElementById('ws-status').textContent = 'lid sensor: connected';
                 document.getElementById('ws-status').classList.add('connected');
-                document.getElementById('status-tip').innerHTML = 'Audio active — push lid down to pump';
+                document.getElementById('status-tip').textContent = 'audio active — push lid down to pump';
             };
             socket.onmessage = (event) => {
                 const data = JSON.parse(event.data);
@@ -335,22 +421,16 @@
                 }
                 lastAngle = angle;
             };
-            socket.onerror = () => {}; // silently ignore
+            socket.onerror = () => {};
         } catch(e) {}
 
-        // ── Bellows tick ────────────────────────────────────────
         setInterval(() => {
-            if (isPumping && !wsConnected) {
-                bellows = Math.min(1.0, bellows + 0.06);
-            }
+            if (isPumping && !wsConnected) bellows = Math.min(1.0, bellows + 0.06);
             bellows *= 0.95;
             document.getElementById('fill').style.width = (bellows * 100) + '%';
-            if (masterGain) {
-                masterGain.gain.setTargetAtTime(bellows, audioCtx.currentTime, 0.05);
-            }
+            if (masterGain) masterGain.gain.setTargetAtTime(bellows, audioCtx.currentTime, 0.05);
         }, 50);
 
-        // ── Keys ────────────────────────────────────────────────
         document.addEventListener('keydown', (e) => {
             if (e.repeat) return;
             const key = e.key.toLowerCase();
