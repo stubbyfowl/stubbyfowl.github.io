@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>i-harmonium</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            background: #111;
+            color: #fff;
+            font-family: -apple-system, 'SF Pro Display', 'Inter', sans-serif;
+            text-align: center;
+            padding: 40px 20px 50px;
+            overflow-x: hidden;
+            position: relative;
+            user-select: none;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            width: 900px; height: 900px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -60%);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: rgba(255,255,255,0.92);
+            margin-bottom: 6px;
+        }
+
+        #status-tip {
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.02em;
+            margin-bottom: 26px;
+        }
+        #status-tip b { color: rgba(255,255,255,0.6); font-weight: 500; }
+
+        /* Bellows meter */
+        #bellows-wrap {
+            margin: 0 auto 8px;
+            width: 380px;
+            max-width: 90vw;
+        }
+        #bellows-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            color: rgba(255,255,255,0.28);
+            text-transform: uppercase;
+            text-align: left;
+            margin-bottom: 7px;
+        }
+        #bellows-meter {
+            width: 100%;
+            height: 6px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.08);
+            border: 0.5px solid rgba(255,255,255,0.12);
+            overflow: hidden;
+            position: relative;
+            cursor: ns-resize;
+        }
+        #fill {
+            height: 100%;
+            width: 0%;
+            background: rgba(255,255,255,0.75);
+            border-radius: 10px;
+            transition: width 0.05s linear;
+            box-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+
+        /* Manual bellows pump button */
+        #pump-btn {
+            margin: 14px auto 6px;
+            display: block;
+            width: 380px;
+            max-width: 90vw;
+            padding: 11px 0;
+            border-radius: 14px;
+            background: rgba(255,255,255,0.07);
+            border: 0.5px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: rgba(255,255,255,0.55);
+            font-family: inherit;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.1s, color 0.1s, transform 0.07s;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 4px 12px rgba(0,0,0,0.3);
+        }
+        #pump-btn:active, #pump-btn.pumping {
+            background: rgba(255,255,255,0.18);
+            color: rgba(255,255,255,0.9);
+            transform: scale(0.98);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 6px rgba(0,0,0,0.4);
+        }
+
+        #ws-status {
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.18);
+            margin-bottom: 30px;
+            margin-top: 4px;
+        }
+        #ws-status.connected { color: rgba(255,255,255,0.4); }
+
+        /* Piano shell */
+        .piano {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 0 auto;
+            width: fit-content;
+            padding: 24px 28px 38px;
+            border-radius: 32px;
+            position: relative;
+            background: rgba(255,255,255,0.055);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 0.5px solid rgba(255,255,255,0.18);
+            box-shadow:
+                0 30px 80px rgba(0,0,0,0.55),
+                0 8px 24px rgba(0,0,0,0.35),
+                inset 0 1px 0 rgba(255,255,255,0.22),
+                inset 0 -1px 0 rgba(0,0,0,0.25);
+        }
+
+        .piano::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 12%; right: 12%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+            border-radius: 50%;
+        }
+
+        /* White keys */
+        .key {
+            width: 54px;
+            height: 210px;
+            margin: 0 2.5px;
+            border-radius: 0 0 14px 14px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 13px;
+            gap: 3px;
+            cursor: pointer;
+            transition: transform 0.07s ease, box-shadow 0.07s ease, background 0.07s ease;
+            background: rgba(255,255,255,0.09);
+            border: 0.5px solid rgba(255,255,255,0.16);
+            border-top: none;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow:
+                0 6px 20px rgba(0,0,0,0.35),
+                inset 0 1px 0 rgba(255,255,255,0.2),
+                inset 0 -1px 0 rgba(0,0,0,0.15);
+        }
+
+        .key::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 45%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            border-radius: 0 0 4px 4px;
+            pointer-events: none;
+        }
+
+        /* Black keys */
+        .black {
+            height: 130px;
+            width: 36px;
+            margin-left: -18px;
+            margin-right: -18px;
+            z-index: 2;
+            border-radius: 0 0 10px 10px;
+            background: rgba(0,0,0,0.72);
+            border: 0.5px solid rgba(255,255,255,0.1);
+            border-top: none;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow:
+                0 10px 30px rgba(0,0,0,0.7),
+                inset 0 1px 0 rgba(255,255,255,0.1),
+                inset 0 -1px 0 rgba(0,0,0,0.5);
+        }
+
+        .black::before {
+            background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 50%);
+        }
+
+        .key .note-name {
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.5);
+        }
+        .key .key-letter {
+            font-size: 0.48rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.22);
+            letter-spacing: 0.05em;
+        }
+
+        .active {
+            transform: translateY(4px) scale(0.975);
+            background: rgba(255,255,255,0.22) !important;
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.45),
+                inset 0 0 20px rgba(255,255,255,0.08),
+                0 0 20px rgba(255,255,255,0.12) !important;
+            border-color: rgba(255,255,255,0.35) !important;
+        }
+        .active .note-name { color: rgba(255,255,255,0.9) !important; }
+        .active .key-letter { color: rgba(255,255,255,0.45) !important; }
+
+        .active::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.2) 0%, transparent 65%);
+            border-radius: inherit;
+            pointer-events: none;
+            animation: glassPress 0.3s ease-out forwards;
+        }
+
+        @keyframes glassPress {
+            0%   { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>i-harmonium</h1>
+    <p id="status-tip">Click to activate — then <b>hold the pump</b> while pressing keys</p>
+
+    <div id="bellows-wrap">
+        <div id="bellows-label">Bellows</div>
+        <div id="bellows-meter"><div id="fill"></div></div>
+    </div>
+
+    <button id="pump-btn">Hold to Pump</button>
+    <div id="ws-status">Lid sensor: not connected</div>
+
+    <div class="piano">
+        <div id="key-a" class="key"><span class="note-name">C</span><span class="key-letter">A</span></div>
+        <div id="key-w" class="key black"><span class="note-name">C#</span><span class="key-letter">W</span></div>
+        <div id="key-s" class="key"><span class="note-name">D</span><span class="key-letter">S</span></div>
+        <div id="key-e" class="key black"><span class="note-name">D#</span><span class="key-letter">E</span></div>
+        <div id="key-d" class="key"><span class="note-name">E</span><span class="key-letter">D</span></div>
+        <div id="key-f" class="key"><span class="note-name">F</span><span class="key-letter">F</span></div>
+        <div id="key-t" class="key black"><span class="note-name">F#</span><span class="key-letter">T</span></div>
+        <div id="key-g" class="key"><span class="note-name">G</span><span class="key-letter">G</span></div>
+        <div id="key-y" class="key black"><span class="note-name">G#</span><span class="key-letter">Y</span></div>
+        <div id="key-h" class="key"><span class="note-name">A</span><span class="key-letter">H</span></div>
+        <div id="key-u" class="key black"><span class="note-name">A#</span><span class="key-letter">U</span></div>
+        <div id="key-j" class="key"><span class="note-name">B</span><span class="key-letter">J</span></div>
+        <div id="key-k" class="key"><span class="note-name">C</span><span class="key-letter">K</span></div>
+    </div>
+
+    <script>
+        const notes = {'a':261.63,'w':277.18,'s':293.66,'e':311.13,'d':329.63,'f':349.23,'t':369.99,'g':392.00,'y':415.30,'h':440.00,'u':466.16,'j':493.88,'k':523.25};
+        let audioCtx, masterGain;
+        let bellows = 0;
+        let activeOscs = {};
+        let isPumping = false;
+        let wsConnected = false;
+
+        // ── Audio init ──────────────────────────────────────────
+        const initAudio = () => {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            masterGain = audioCtx.createGain();
+            masterGain.gain.value = 0;
+            masterGain.connect(audioCtx.destination);
+            document.getElementById('status-tip').innerHTML = 'Audio active — <b>hold pump</b> + press keys';
+        };
+
+        window.addEventListener('mousedown', initAudio);
+        window.addEventListener('keydown', initAudio);
+
+        // ── Manual pump button ──────────────────────────────────
+        const pumpBtn = document.getElementById('pump-btn');
+
+        const startPump = () => { isPumping = true; pumpBtn.classList.add('pumping'); };
+        const stopPump  = () => { isPumping = false; pumpBtn.classList.remove('pumping'); };
+
+        pumpBtn.addEventListener('mousedown',  startPump);
+        pumpBtn.addEventListener('touchstart', startPump, { passive: true });
+        window.addEventListener('mouseup',  stopPump);
+        window.addEventListener('touchend', stopPump);
+
+        // ── Spacebar pumps too ──────────────────────────────────
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !e.repeat) { e.preventDefault(); isPumping = true; }
+        });
+        document.addEventListener('keyup', (e) => {
+            if (e.code === 'Space') { isPumping = false; }
+        });
+
+        // ── WebSocket (optional — lid sensor) ──────────────────
+        let lastAngle = 0;
+        try {
+            const socket = new WebSocket('ws://localhost:8765');
+            socket.onopen = () => {
+                wsConnected = true;
+                document.getElementById('ws-status').textContent = 'Lid sensor: connected';
+                document.getElementById('ws-status').classList.add('connected');
+                document.getElementById('status-tip').innerHTML = 'Audio active — push lid down to pump';
+            };
+            socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                const angle = data.angle;
+                if (lastAngle !== 0) {
+                    const change = lastAngle - angle;
+                    if (change > 0.05) bellows = Math.min(1.0, bellows + change * 1.5);
+                }
+                lastAngle = angle;
+            };
+            socket.onerror = () => {}; // silently ignore
+        } catch(e) {}
+
+        // ── Bellows tick ────────────────────────────────────────
+        setInterval(() => {
+            if (isPumping && !wsConnected) {
+                bellows = Math.min(1.0, bellows + 0.06);
+            }
+            bellows *= 0.95;
+            document.getElementById('fill').style.width = (bellows * 100) + '%';
+            if (masterGain) {
+                masterGain.gain.setTargetAtTime(bellows, audioCtx.currentTime, 0.05);
+            }
+        }, 50);
+
+        // ── Keys ────────────────────────────────────────────────
+        document.addEventListener('keydown', (e) => {
+            if (e.repeat) return;
+            const key = e.key.toLowerCase();
+            if (notes[key] && !activeOscs[key] && audioCtx) {
+                const osc1 = audioCtx.createOscillator();
+                const osc2 = audioCtx.createOscillator();
+                osc1.type = 'sawtooth';
+                osc2.type = 'square';
+                osc1.frequency.value = notes[key];
+                osc2.frequency.value = notes[key] + 1.5;
+                const g = audioCtx.createGain();
+                g.gain.value = 0.25;
+                osc1.connect(g); osc2.connect(g);
+                g.connect(masterGain);
+                osc1.start(); osc2.start();
+                activeOscs[key] = { oscs: [osc1, osc2], gain: g };
+                document.getElementById(`key-${key}`)?.classList.add('active');
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            const key = e.key.toLowerCase();
+            if (activeOscs[key]) {
+                activeOscs[key].oscs.forEach(o => o.stop());
+                delete activeOscs[key];
+                document.getElementById(`key-${key}`)?.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
