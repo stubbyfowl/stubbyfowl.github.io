@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sidak Mann — Sports</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">SIDAK MANN</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">About</a>
+        <a href="businesses.html">Businesses</a>
+        <a href="projects.html">Projects</a>
+        <a href="hobby-projects.html">Fun</a>
+        <a href="sports.html" class="active">Sports</a>
+        <a href="hobbies.html">Hobbies</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <main>
+    <h1 class="page-title">Sports</h1>
+    <p class="page-sub">Competitive and recreational athletics.</p>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Polo / Horse Riding</h3>
+        <div class="role">Player &middot; Since Jan 2018 &middot; Arizona</div>
+        <div class="desc">
+          <p>Best polo player in my age group in the entire state of Arizona. Best youth player at both Arizona Polo Club and Cave Creek Polo Club.</p>
+          <p>Won 2nd best in a hunter style regional competition for Arizona. Won three 1st-place medals at multiple horse riding sporting events.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Arizona Polo Club</span>
+          <span class="tag">Cave Creek Polo Club</span>
+          <span class="tag">Hunter Style</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Rowing</h3>
+        <div class="role">Brophy College Preparatory &middot; 2025&ndash;2026</div>
+        <div class="desc">
+          <p>Competitive rowing with Brophy College Preparatory. Competed in multiple tournaments during the spring season.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Cross Country</h3>
+        <div class="role">Brophy College Preparatory &middot; Fall 2025</div>
+        <div class="desc">
+          <p>Ran cross country with Brophy's team during the fall 2025 season. Competed in multiple meets and tournaments.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Mountain Biking</h3>
+        <div class="role">Recreational</div>
+        <div class="desc">
+          <p>Regular trail riding across Arizona terrain. One of my go-to ways to unwind and explore the desert landscape.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <div class="label">Education</div>
+      <div class="val"><strong>Brophy College Preparatory</strong> &middot; Phoenix, AZ<br>Class of 2029 &middot; 4.0 GPA</div>
+    </div>
+    <div>
+      <div class="label">Technical Skills</div>
+      <div class="val">Advanced in <strong>C++</strong>, <strong>HTML/CSS</strong>. Proficient in <strong>Python</strong>.</div>
+    </div>
+  </footer>
+
+  <script>
+    var t = document.getElementById('nav-toggle'), n = document.getElementById('nav-links');
+    if (t) t.addEventListener('click', function() { n.classList.toggle('open'); t.textContent = n.classList.contains('open') ? '✕' : '☰'; });
+  </script>
+</body>
+</html>

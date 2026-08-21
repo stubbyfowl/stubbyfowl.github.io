@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sidak Mann — Hobbies</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">SIDAK MANN</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">About</a>
+        <a href="businesses.html">Businesses</a>
+        <a href="projects.html">Projects</a>
+        <a href="hobby-projects.html">Fun</a>
+        <a href="sports.html">Sports</a>
+        <a href="hobbies.html" class="active">Hobbies</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <main>
+    <h1 class="page-title">Hobbies &amp; Interests</h1>
+    <p class="page-sub">What I'm into outside of work and school.</p>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Security Research &amp; Pentesting</h3>
+        <div class="role">Ongoing</div>
+        <div class="desc">
+          <p>Interested in offensive security, kernel exploitation, and device security analysis. Regularly explore how systems can be broken down and understood at a low level.</p>
+          <p>This interest directly feeds into my hobby projects &mdash; jailbreaking phones, modding consoles, and bypassing locked-down environments.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Pentesting</span>
+          <span class="tag">Kernel Exploits</span>
+          <span class="tag">Device Security</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Machine Learning &amp; AI</h3>
+        <div class="role">Ongoing</div>
+        <div class="desc">
+          <p>Applied machine learning research focused on real-world accessibility and infrastructure problems. Long-term goal: build an AI-integrated phone operating system for cheap mobile devices in developing countries.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">ML</span>
+          <span class="tag">Applied AI</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Speech &amp; Debate</h3>
+        <div class="role">Policy Debate &middot; Brophy &middot; Aug 2025 &ndash; Present</div>
+        <div class="desc">
+          <p>Rising Policy Debate member at Brophy College Preparatory. Attend weekly meetings and have participated in multiple events, including events with the Arizona House of Representatives.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Policy Debate</span>
+          <span class="tag">Public Speaking</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Rocketry &amp; Aviation</h3>
+        <div class="role">Brophy Clubs &middot; 2025 &ndash; Present</div>
+        <div class="desc">
+          <p>Active member of Brophy's Rocketry Club and Aviation Club. Exploring aerospace engineering, rocket design, and flight principles.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Rocketry</span>
+          <span class="tag">Aviation</span>
+          <span class="tag">Aerospace</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <div class="label">Education</div>
+      <div class="val"><strong>Brophy College Preparatory</strong> &middot; Phoenix, AZ<br>Class of 2029 &middot; 4.0 GPA</div>
+    </div>
+    <div>
+      <div class="label">Technical Skills</div>
+      <div class="val">Advanced in <strong>C++</strong>, <strong>HTML/CSS</strong>. Proficient in <strong>Python</strong>.</div>
+    </div>
+  </footer>
+
+  <script>
+    var t = document.getElementById('nav-toggle'), n = document.getElementById('nav-links');
+    if (t) t.addEventListener('click', function() { n.classList.toggle('open'); t.textContent = n.classList.contains('open') ? '✕' : '☰'; });
+  </script>
+</body>
+</html>

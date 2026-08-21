@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sidak Mann — Hobby Projects</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">SIDAK MANN</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">About</a>
+        <a href="businesses.html">Businesses</a>
+        <a href="projects.html">Projects</a>
+        <a href="hobby-projects.html" class="active">Fun</a>
+        <a href="sports.html">Sports</a>
+        <a href="hobbies.html">Hobbies</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <main>
+    <h1 class="page-title">Hobby Projects</h1>
+    <p class="page-sub">Console modding, jailbreaking, and hardware hacking.</p>
+
+    <div class="grid grid-2">
+      <div class="card card-img">
+        <img src="images/project1.jpeg" alt="Dopamine Jailbreak">
+        <div class="card-body">
+          <h3>Dopamine Jailbreak &mdash; iPhone 7, iOS 15.8.3</h3>
+          <div class="role">iOS Security &middot; Kernel Exploits &middot; ARM64</div>
+          <div class="desc">
+            <p>Deployed a rootless jailbreak on iOS 15.8.3 using the Dopamine exploit chain, which leverages kernel vulnerabilities to bypass Apple's code-signing enforcement.</p>
+            <p>Bootstrapped the environment with TrollStore for persistence, installed Sileo as a package manager, and tested a suite of system-level tweaks &mdash; exploring how user-space processes interact with the sandboxed iOS kernel.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-img">
+        <img src="images/project2.jpeg" alt="Luma3DS CFW">
+        <div class="card-body">
+          <h3>Luma3DS CFW &mdash; New 3DS XL</h3>
+          <div class="role">ARM11/ARM9 &middot; Custom Firmware &middot; Embedded</div>
+          <div class="desc">
+            <p>Installed Luma3DS custom firmware on a New 3DS XL by exploiting the system's ARM9 bootrom to gain full hardware access below the OS level.</p>
+            <p>Set up CIA installation for homebrew and retail titles, configured custom system themes, and explored the dual-core ARM architecture &mdash; ARM11 for applications, ARM9 for the privileged security processor.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-img">
+        <img src="images/project3.jpeg" alt="PS3 CFW">
+        <div class="card-body">
+          <h3>PS3 Slim &mdash; Custom Firmware via USB</h3>
+          <div class="role">Cell BE &middot; Hypervisor Bypass &middot; CFW</div>
+          <div class="desc">
+            <p>Flashed a PS3 Slim to custom firmware by exploiting a vulnerability in Sony's software update chain via USB. Gained hypervisor-level access to the Cell Broadband Engine, enabling unsigned code execution.</p>
+            <p>Installed RetroArch and additional emulators, repurposing the Cell BE's seven SPE cores for multi-system emulation workloads.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-img">
+        <img src="images/project4.jpeg" alt="Switch RCM Jig">
+        <div class="card-body">
+          <h3>Nintendo Switch RCM Jig &mdash; Attempted CFW</h3>
+          <div class="role">Tegra X1 &middot; RCM Exploit &middot; Hardware Mod</div>
+          <div class="desc">
+            <p>Fabricated a custom RCM jig from aluminum foil and packaging to short pins 1 and 10 in the right Joy-Con rail, triggering the Tegra X1's Recovery Mode &mdash; a bootrom-level vulnerability that cannot be patched via software update.</p>
+            <p>After an hour of work, discovered the unit was a hardware-patched V2 model with the fixed Tegra revision. Documented for future use on an unpatched unit.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-img">
+        <img src="images/project5.jpeg" alt="Skylight ADB">
+        <div class="card-body">
+          <h3>Skylight Calendar &mdash; ADB Sideloading &amp; Launcher Swap</h3>
+          <div class="role">Android ADB &middot; Sideloading &middot; AOSP</div>
+          <div class="desc">
+            <p>Used Android Debug Bridge to gain shell access to the Skylight Calendar's locked-down Android environment. Bypassed the default restricted launcher by sideloading a replacement via <code>adb install</code>.</p>
+            <p>Pushed additional APKs to extend device functionality well beyond the manufacturer's intended use case &mdash; turning a single-purpose display into a general-purpose Android tablet.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-img">
+        <img src="images/project6.jpeg" alt="DS R4 Card">
+        <div class="card-body">
+          <h3>DS Lite &mdash; R4 Flashcard &amp; NES Emulation</h3>
+          <div class="role">ARM7/ARM9 &middot; Flashcart &middot; Emulation</div>
+          <div class="desc">
+            <p>Configured an R4 flashcard on a DS Lite to run homebrew NDS ROMs by exploiting the DS's lack of code-signing verification on slot-1 cartridges.</p>
+            <p>Tested NES emulation via nesDS, benchmarking performance against the ARM7's 33MHz clock &mdash; and confirmed that the DS Lite's underpowered ARM7 co-processor makes for a poor NES emulation host. A useful lesson in hardware constraints.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-img">
+        <img src="images/project7.jpeg" alt="Pi-hole">
+        <div class="card-body">
+          <h3>Pi-hole &mdash; Per-Device DNS Filtering on Raspberry Pi</h3>
+          <div class="role">Raspberry Pi &middot; DNS &middot; Networking &middot; Linux</div>
+          <div class="desc">
+            <p>Deployed Pi-hole on a Raspberry Pi as a local DNS sinkhole, configuring each device on the network with a static DNS entry pointing to the Pi rather than the router's default resolver.</p>
+            <p>This intercepts DNS queries at the network layer before they reach upstream servers, allowing per-device filtering rules &mdash; blocking ad-serving and tracking domains for specific devices while leaving others unaffected.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <div class="label">Education</div>
+      <div class="val"><strong>Brophy College Preparatory</strong> &middot; Phoenix, AZ<br>Class of 2029 &middot; 4.0 GPA</div>
+    </div>
+    <div>
+      <div class="label">Technical Skills</div>
+      <div class="val">Advanced in <strong>C++</strong>, <strong>HTML/CSS</strong>. Proficient in <strong>Python</strong>.</div>
+    </div>
+  </footer>
+
+  <script>
+    var t = document.getElementById('nav-toggle'), n = document.getElementById('nav-links');
+    if (t) t.addEventListener('click', function() { n.classList.toggle('open'); t.textContent = n.classList.contains('open') ? '✕' : '☰'; });
+  </script>
+</body>
+</html>

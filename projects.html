@@ -1,673 +1,110 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>sidak mann — projects</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    @font-face {
-      font-family: 'CC Wild Words';
-      src: local('CC Wild Words Roman'), local('CCWildWordsRoman'), local('CC Wild Words');
-    }
-
-    :root {
-      --ink: #0d0d0d;
-      --ink-soft: #3a3a3a;
-      --ink-faint: #888;
-      --paper: #f9f7f3;
-      --glass: rgba(255,255,255,0.6);
-      --border: rgba(0,0,0,0.12);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'DM Mono', monospace;
-      background: var(--paper);
-      color: var(--ink);
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-
-    /* ── background ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: -50%;
-      background:
-        radial-gradient(circle at 15% 55%, rgba(0,0,0,0.04) 0%, transparent 50%),
-        radial-gradient(circle at 85% 25%, rgba(0,0,0,0.06) 0%, transparent 45%),
-        radial-gradient(circle at 50% 80%, rgba(0,0,0,0.03) 0%, transparent 55%);
-      animation: gradientShift 18s ease infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-    @keyframes gradientShift {
-      0%,100% { transform: translate(0,0) rotate(0deg); }
-      33%  { transform: translate(-4%,-6%) rotate(120deg); }
-      66%  { transform: translate(5%,4%) rotate(240deg); }
-    }
-
-    .orb {
-      position: fixed;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(0,0,0,0.07), rgba(0,0,0,0.02));
-      backdrop-filter: blur(40px);
-      border: 1.5px solid rgba(0,0,0,0.08);
-      pointer-events: none;
-      animation: float 22s ease-in-out infinite;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.06), inset 0 2px 0 rgba(255,255,255,0.7);
-      z-index: 0;
-    }
-    .orb:nth-child(1) { width:320px; height:320px; top:5%;    left:5%;   animation-delay:0s;   }
-    .orb:nth-child(2) { width:220px; height:220px; top:55%;   right:8%;  animation-delay:-8s;  }
-    .orb:nth-child(3) { width:160px; height:160px; bottom:15%;left:55%;  animation-delay:-15s; }
-    @keyframes float {
-      0%,100% { transform: translate(0,0) scale(1); }
-      33%     { transform: translate(35px,-35px) scale(1.1); }
-      66%     { transform: translate(-25px,25px) scale(0.9); }
-    }
-
-    /* ── corner hamburger menu ── */
-    #menu-corner {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      z-index: 1000;
-    }
-    #menu-toggle {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: var(--glass);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1.5px solid var(--border);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.1), inset 0 1.5px 0 rgba(255,255,255,0.9);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-    }
-    #menu-toggle:hover {
-      background: rgba(255,255,255,0.9);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.14), inset 0 1.5px 0 rgba(255,255,255,1);
-      transform: scale(1.05);
-    }
-    #menu-toggle span {
-      display: block;
-      width: 18px;
-      height: 1.5px;
-      background: var(--ink);
-      border-radius: 2px;
-      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-      transform-origin: center;
-    }
-    #menu-corner.open #menu-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    #menu-corner.open #menu-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    #menu-corner.open #menu-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-    #menu-dropdown {
-      position: absolute;
-      top: 58px;
-      right: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(-8px) scale(0.96);
-      transform-origin: top right;
-      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
-    }
-    #menu-corner.open #menu-dropdown {
-      opacity: 1;
-      pointer-events: all;
-      transform: translateY(0) scale(1);
-    }
-    #menu-dropdown a { text-decoration: none; }
-    #menu-dropdown button {
-      width: 148px;
-      background: var(--glass);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1.5px solid var(--border);
-      padding: 11px 18px;
-      color: var(--ink);
-      cursor: pointer;
-      border-radius: 12px;
-      font-family: 'CC Wild Words', 'DM Mono', monospace;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: lowercase;
-      text-align: left;
-      transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
-      box-shadow: 0 6px 24px rgba(0,0,0,0.08), inset 0 1.5px 0 rgba(255,255,255,0.9);
-      position: relative;
-      overflow: hidden;
-    }
-    #menu-dropdown button::before {
-      content: '';
-      position: absolute;
-      top:0; left:-100%;
-      width:100%; height:100%;
-      background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
-      transition: left 0.4s;
-    }
-    #menu-dropdown button:hover::before { left: 100%; }
-    #menu-dropdown button:hover {
-      background: rgba(255,255,255,0.92);
-      border-color: rgba(0,0,0,0.2);
-      transform: translateX(-4px);
-      box-shadow: 0 10px 36px rgba(0,0,0,0.12), inset 0 1.5px 0 rgba(255,255,255,1);
-    }
-    #menu-dropdown button.active {
-      background: rgba(0,0,0,0.88);
-      color: var(--paper);
-      border-color: transparent;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.22);
-    }
-    #menu-dropdown button.active:hover { transform: translateX(-4px); }
-
-    /* ── main layout ── */
-    main {
-      position: relative;
-      z-index: 5;
-      max-width: 780px;
-      margin: 60px auto 120px;
-      padding: 0 32px;
-      animation: fadeIn 1s ease 0.25s both;
-    }
-
-    .page-label {
-      font-size: 10.5px;
-      letter-spacing: 3.5px;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      margin-bottom: 32px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 400;
-    }
-    .page-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(0,0,0,0.1);
-    }
-
-    /* ── featured experience ── */
-    .featured {
-      margin-bottom: 52px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid rgba(0,0,0,0.12);
-      animation: fadeInUp 0.7s ease both;
-    }
-
-    .featured-img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      display: block;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-      background: rgba(0,0,0,0.06);
-    }
-
-    .featured-img-placeholder {
-      width: 100%;
-      height: 260px;
-      background: linear-gradient(135deg, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.03) 100%);
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-    }
-
-    .featured-body {
-      padding: 32px 36px 36px;
-    }
-
-    .featured-eyebrow {
-      font-size: 9.5px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      margin-bottom: 12px;
-    }
-
-    .featured-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 28px;
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.25;
-      margin-bottom: 6px;
-    }
-
-    .featured-sub {
-      font-size: 12px;
-      color: var(--ink-faint);
-      letter-spacing: 0.5px;
-      margin-bottom: 20px;
-      font-weight: 300;
-    }
-
-    .featured-desc {
-      font-size: 13px;
-      line-height: 1.9;
-      color: var(--ink-soft);
-      font-weight: 300;
-      margin-bottom: 24px;
-    }
-    .featured-desc p + p { margin-top: 12px; }
-
-    .featured-locations {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-    .location-chip {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      letter-spacing: 0.5px;
-      color: var(--ink-soft);
-      font-weight: 300;
-      border: 1px solid rgba(0,0,0,0.12);
-      border-radius: 20px;
-      padding: 5px 12px;
-    }
-    .location-chip svg {
-      width: 11px;
-      height: 11px;
-      opacity: 0.4;
-      flex-shrink: 0;
-    }
-
-    .featured-issues {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .issue {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 12px;
-      color: var(--ink-soft);
-      font-weight: 300;
-      line-height: 1.5;
-    }
-    .issue-dot {
-      width: 4px; height: 4px;
-      border-radius: 50%;
-      background: var(--ink);
-      opacity: 0.25;
-      margin-top: 6px;
-      flex-shrink: 0;
-    }
-
-    /* ── project cards ── */
-    .project {
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 28px;
-      padding: 28px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      animation: fadeInUp 0.7s ease both;
-    }
-    .project:first-of-type { border-top: 1px solid rgba(0,0,0,0.08); }
-    .project:nth-child(2) { animation-delay: 0.05s; }
-    .project:nth-child(3) { animation-delay: 0.10s; }
-    .project:nth-child(4) { animation-delay: 0.15s; }
-    .project:nth-child(5) { animation-delay: 0.20s; }
-    .project:nth-child(6) { animation-delay: 0.25s; }
-    .project:nth-child(7) { animation-delay: 0.30s; }
-
-    .project-img {
-      width: 100%;
-      aspect-ratio: 4/3;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid rgba(0,0,0,0.12);
-      display: block;
-      background: rgba(0,0,0,0.04);
-      transition: opacity 0.2s;
-    }
-    .project-img:hover { opacity: 0.88; }
-
-    .project-body { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
-
-    .project-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 20px;
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.3;
-    }
-
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .tag {
-      font-size: 9.5px;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      border: 1px solid rgba(0,0,0,0.15);
-      border-radius: 4px;
-      padding: 3px 7px;
-      font-weight: 400;
-    }
-
-    .project-desc {
-      font-size: 12.5px;
-      line-height: 1.85;
-      color: var(--ink-soft);
-      font-weight: 300;
-    }
-
-    .project-link {
-      font-size: 11px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 2px;
-      transition: color 0.18s;
-    }
-    .project-link:hover { color: var(--ink); }
-
-    /* ── shimeji ── */
-    #shimeji {
-      position: fixed;
-      bottom: 0;
-      left: 108px;
-      width: 64px;
-      height: 64px;
-      user-select: none;
-      cursor: grab;
-      z-index: 99999;
-      filter: drop-shadow(0 6px 18px rgba(0,0,0,0.25));
-    }
-    #shimeji:active { cursor: grabbing; }
-
-    @keyframes fadeIn {
-      from { opacity:0; }
-      to   { opacity:1; }
-    }
-    @keyframes fadeInUp {
-      from { opacity:0; transform:translateY(20px); }
-      to   { opacity:1; transform:translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      .project { grid-template-columns: 1fr; }
-      .project-img { max-width: 100%; aspect-ratio: 16/9; }
-      #menu-corner { top: 16px; right: 16px; }
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sidak Mann — Projects</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <div class="orb"></div>
-  <div class="orb"></div>
-  <div class="orb"></div>
-
-  <!-- ── corner menu ── -->
-  <div id="menu-corner">
-    <button id="menu-toggle" aria-label="Open menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <div id="menu-dropdown">
-      <a href="index.html"><button>about</button></a>
-      <a href="projects.html"><button class="active">projects</button></a>
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">SIDAK MANN</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">About</a>
+        <a href="businesses.html">Businesses</a>
+        <a href="projects.html" class="active">Projects</a>
+        <a href="hobby-projects.html">Fun</a>
+        <a href="sports.html">Sports</a>
+        <a href="hobbies.html">Hobbies</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
     </div>
-  </div>
+  </nav>
 
   <main>
-    <div class="page-label">experiences</div>
+    <h1 class="page-title">Projects</h1>
+    <p class="page-sub">Apps, nonprofits, and organizations I'm part of.</p>
 
-    <!-- ── FEATURED: PERU ── -->
-    <div class="featured">
-      <img class="featured-img" src="images/peru.jpg" alt="Peru 2026">
-      <div class="featured-body">
-        <div class="featured-eyebrow">Brophy Immersion Trip · 2026</div>
-        <div class="featured-title">Peru — International Exchange &amp; Immersion</div>
-        <div class="featured-sub">Lima · Cusco · Arequipa</div>
-        <div class="featured-desc">
-          <p>
-            This year I'll be traveling to Peru as part of Brophy's international immersion program, a two-way exchange where Brophy students spend time in Peruvian communities and Peruvian students visit Brophy the following school year. The program is designed not as tourism but as genuine encounter: We'll be building churches, houses, and a lot of other projects, and I'll be living with my Peru buddy, Braulio, just like how he lived with me for two weeks at the start of the year.
-          </p>
-          <p>
-            I want to see how different life is for underserved individuals and not only help them physically like we are doing but in the future I would like to use machine learning to help them get better access to food and information.
-          </p>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>GhostLink</h3>
+        <div class="role">Creator &middot; Feb 2025</div>
+        <div class="desc">
+          <p>End-to-end encrypted text messaging app built entirely on my own. Features include GIF support, custom themes, secret games, and a hidden interface.</p>
+          <p>Developed the full stack &mdash; backend, frontend, and deployment. Ported (unofficially) to iOS, Tizen OS, macOS, Windows, and Linux.</p>
         </div>
-        <div class="featured-locations">
-          <span class="location-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            Lima
-          </span>
-          <span class="location-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            Cusco
-          </span>
-          <span class="location-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            Arequipa
-          </span>
+        <div class="tags">
+          <span class="tag">E2E Encryption</span>
+          <span class="tag">Multi-Platform</span>
+          <span class="tag">Full-Stack</span>
         </div>
-        <div class="featured-issues">
-          <div class="issue"><span class="issue-dot"></span><span>Poverty &amp; economic inequality</span></div>
-          <div class="issue"><span class="issue-dot"></span><span>Building houses &amp; churches</span></div>
-          <div class="issue"><span class="issue-dot"></span><span>Hands on learning in the Andes</span></div>
-          <div class="issue"><span class="issue-dot"></span><span>Spending time with our Peru buddies for two weeks</span></div>
+      </div>
+
+      <div class="card">
+        <h3>WheresMyWater.org</h3>
+        <div class="role">Founder &middot; Jul 2026 &ndash; Present &middot; Scottsdale, AZ</div>
+        <div class="desc">
+          <p>Founded a nonprofit organization that helps people in water crises throughout Arizona find the nearest usable water sources near them.</p>
+          <p>Currently expanding to cover the rest of the United States.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Nonprofit</span>
+          <span class="tag">Web App</span>
+          <span class="tag">Public Service</span>
+          <span class="tag">Arizona</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>CubeSat Club</h3>
+        <div class="role">Committee Member &middot; Aug 2025 &ndash; Present &middot; Brophy</div>
+        <div class="desc">
+          <p>Influential member of Brophy's CubeSat Club. Helped launch 3 satellites.</p>
+          <p>Discussed with ASU's Molecular Technology Foundry center, visited their facilities, and learned about solar cell creation.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Satellites</span>
+          <span class="tag">Aerospace</span>
+          <span class="tag">Solar Cells</span>
+          <span class="tag">ASU MTF</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>The Loving Library</h3>
+        <div class="role">Ambassador &middot; Jan 2024 &ndash; Present &middot; Phoenix, AZ</div>
+        <div class="desc">
+          <p>Public ambassador for The Loving Library nonprofit. Work directly with the organization and participate in their events.</p>
+          <p>Help fundraise and promote events to increase community reach and impact.</p>
+        </div>
+        <div class="tags">
+          <span class="tag">Nonprofit</span>
+          <span class="tag">Community</span>
+          <span class="tag">Fundraising</span>
         </div>
       </div>
     </div>
-
-    <div class="page-label" style="margin-top: 8px;">technical projects</div>
-
-    <div class="project">
-      <img class="project-img" src="images/project1.jpeg" alt="Dopamine Jailbreak">
-      <div class="project-body">
-        <div class="project-title">Dopamine Jailbreak — iPhone 7, iOS 15.8.3</div>
-        <div class="project-tags">
-          <span class="tag">iOS security</span>
-          <span class="tag">kernel exploits</span>
-          <span class="tag">ARM64</span>
-        </div>
-        <div class="project-desc">
-          Deployed a rootless jailbreak on iOS 15.8.3 using the Dopamine exploit chain, which leverages kernel vulnerabilities to bypass Apple's code-signing enforcement. Bootstrapped the environment with TrollStore for persistence, installed Sileo as a package manager, and tested a suite of system-level tweaks — exploring how user-space processes interact with the sandboxed iOS kernel.
-        </div>
-      </div>
-    </div>
-
-    <div class="project">
-      <img class="project-img" src="images/project2.jpeg" alt="3DS CFW">
-      <div class="project-body">
-        <div class="project-title">Luma3DS CFW — New 3DS XL</div>
-        <div class="project-tags">
-          <span class="tag">ARM11/ARM9</span>
-          <span class="tag">custom firmware</span>
-          <span class="tag">embedded</span>
-        </div>
-        <div class="project-desc">
-          Installed Luma3DS custom firmware on a New 3DS XL by exploiting the system's ARM9 bootrom to gain full hardware access below the OS level. Set up CIA installation for homebrew and retail titles, configured custom system themes, and explored the dual-core ARM architecture — ARM11 for applications, ARM9 for the privileged security processor.
-        </div>
-      </div>
-    </div>
-
-    <div class="project">
-      <img class="project-img" src="images/project3.jpeg" alt="PS3 CFW">
-      <div class="project-body">
-        <div class="project-title">PS3 Slim — Custom Firmware via USB</div>
-        <div class="project-tags">
-          <span class="tag">Cell BE architecture</span>
-          <span class="tag">hypervisor bypass</span>
-          <span class="tag">CFW</span>
-        </div>
-        <div class="project-desc">
-          Flashed a PS3 Slim to custom firmware by exploiting a vulnerability in Sony's software update chain via USB. Gained hypervisor-level access to the Cell Broadband Engine, enabling unsigned code execution. Installed RetroArch and additional emulators, effectively repurposing the Cell BE's seven SPE cores for multi-system emulation workloads.
-        </div>
-      </div>
-    </div>
-
-    <div class="project">
-      <img class="project-img" src="images/project4.jpeg" alt="Switch CFW attempt">
-      <div class="project-body">
-        <div class="project-title">Nintendo Switch RCM Jig — Attempted CFW</div>
-        <div class="project-tags">
-          <span class="tag">Tegra X1</span>
-          <span class="tag">RCM exploit</span>
-          <span class="tag">hardware mod</span>
-        </div>
-        <div class="project-desc">
-          Fabricated a custom RCM jig from aluminum foil and packaging to short pins 1 and 10 in the right Joy-Con rail, triggering the Tegra X1's Recovery Mode — a bootrom-level vulnerability that cannot be patched via software update. After an hour of work, discovered the unit was a hardware-patched V2 model with the fixed Tegra revision. Documented for future use on an unpatched unit.
-        </div>
-      </div>
-    </div>
-
-    <div class="project">
-      <img class="project-img" src="images/project5.jpeg" alt="Skylight ADB">
-      <div class="project-body">
-        <div class="project-title">Skylight Calendar — ADB Sideloading & Launcher Swap</div>
-        <div class="project-tags">
-          <span class="tag">Android ADB</span>
-          <span class="tag">sideloading</span>
-          <span class="tag">AOSP</span>
-        </div>
-        <div class="project-desc">
-          Used Android Debug Bridge to gain shell access to the Skylight Calendar's locked-down Android environment. Bypassed the default restricted launcher by sideloading a replacement via <code>adb install</code>, then pushed additional APKs to extend device functionality well beyond the manufacturer's intended use case — effectively turning a single-purpose display into a general-purpose Android tablet.
-        </div>
-      </div>
-    </div>
-
-    <div class="project">
-      <img class="project-img" src="images/project6.jpeg" alt="DS R4 Card">
-      <div class="project-body">
-        <div class="project-title">DS Lite — R4 Flashcard & NES Emulation</div>
-        <div class="project-tags">
-          <span class="tag">ARM7/ARM9</span>
-          <span class="tag">flashcart</span>
-          <span class="tag">emulation</span>
-        </div>
-        <div class="project-desc">
-          Configured an R4 flashcard on a DS Lite to run homebrew NDS ROMs by exploiting the DS's lack of code-signing verification on slot-1 cartridges. Tested NES emulation via nesDS, benchmarking performance against the ARM7's 33MHz clock — and confirmed that the DS Lite's relatively underpowered ARM7 co-processor makes for a poor NES emulation host. A useful lesson in hardware constraints.
-        </div>
-      </div>
-    </div>
-
-    <div class="project">
-      <img class="project-img" src="images/project7.jpeg" alt="Pi-hole">
-      <div class="project-body">
-        <div class="project-title">Pi-hole — Per-Device DNS Filtering on Raspberry Pi</div>
-        <div class="project-tags">
-          <span class="tag">Raspberry Pi</span>
-          <span class="tag">DNS</span>
-          <span class="tag">networking</span>
-          <span class="tag">Linux</span>
-        </div>
-        <div class="project-desc">
-          Deployed Pi-hole on a Raspberry Pi as a local DNS sinkhole, configuring each device on the network with a static DNS entry pointing to the Pi rather than the router's default resolver. This intercepts DNS queries at the network layer before they reach upstream servers, allowing per-device filtering rules — blocking ad-serving and tracking domains for specific devices while leaving others unaffected. Explored how DNS resolution works end-to-end and how most ad infrastructure relies on predictable domain patterns that make sinkholing highly effective.
-        </div>
-      </div>
-    </div>
-
   </main>
 
-  <img id="shimeji" src="images/littleguy.png">
+  <footer>
+    <div>
+      <div class="label">Education</div>
+      <div class="val"><strong>Brophy College Preparatory</strong> &middot; Phoenix, AZ<br>Class of 2029 &middot; 4.0 GPA</div>
+    </div>
+    <div>
+      <div class="label">Technical Skills</div>
+      <div class="val">Advanced in <strong>C++</strong>, <strong>HTML/CSS</strong>. Proficient in <strong>Python</strong>.</div>
+    </div>
+  </footer>
 
   <script>
-    // corner menu
-    const corner = document.getElementById('menu-corner');
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-      corner.classList.toggle('open');
-    });
-    document.addEventListener('click', e => {
-      if (!corner.contains(e.target)) corner.classList.remove('open');
-    });
-
-    // shimeji physics
-    const guy = document.getElementById('shimeji');
-    if (guy) {
-      guy.ondragstart = e => e.preventDefault();
-      let x = 108, y = window.innerHeight - 64;
-      let vx = 1.2, vy = 0;
-      const gravity = 0.55;
-      let dragging = false, offsetX = 0, offsetY = 0;
-      let prevMX = 0, prevMY = 0, mvx = 0, mvy = 0;
-      let moveLeft = false, moveRight = false;
-
-      window.addEventListener('keydown', e => {
-        if (e.key === 'ArrowLeft')  moveLeft  = true;
-        if (e.key === 'ArrowRight') moveRight = true;
-        if (e.key === 'ArrowUp' && y + 64 >= window.innerHeight - 2) vy = -11;
-      });
-      window.addEventListener('keyup', e => {
-        if (e.key === 'ArrowLeft')  moveLeft  = false;
-        if (e.key === 'ArrowRight') moveRight = false;
-      });
-      guy.addEventListener('mousedown', e => {
-        dragging = true;
-        offsetX = e.clientX - x; offsetY = e.clientY - y;
-        prevMX = e.clientX; prevMY = e.clientY;
-        mvx = 0; mvy = 0;
-      });
-      window.addEventListener('mousemove', e => {
-        if (!dragging) return;
-        x = e.clientX - offsetX; y = e.clientY - offsetY;
-        mvx = e.clientX - prevMX; mvy = e.clientY - prevMY;
-        prevMX = e.clientX; prevMY = e.clientY;
-      });
-      window.addEventListener('mouseup', () => {
-        if (!dragging) return;
-        dragging = false; vx = mvx * 0.5; vy = mvy * 0.5;
-      });
-
-      const W = 64;
-      function update() {
-        if (!dragging) {
-          if (moveLeft)  vx -= 0.4;
-          if (moveRight) vx += 0.4;
-          vy += gravity; y += vy; x += vx;
-          vx *= 0.98; vy *= 0.98;
-          if (y + W >= window.innerHeight) { y = window.innerHeight - W; vy *= -0.55; }
-          if (y <= 0) { y = 0; vy *= -0.55; }
-          if (x <= 0) { x = 0; vx *= -0.55; }
-          if (x + W >= window.innerWidth) { x = window.innerWidth - W; vx *= -0.55; }
-        }
-        guy.style.left = x + 'px';
-        guy.style.top  = y + 'px';
-        requestAnimationFrame(update);
-      }
-      update();
-    }
+    var t = document.getElementById('nav-toggle'), n = document.getElementById('nav-links');
+    if (t) t.addEventListener('click', function() { n.classList.toggle('open'); t.textContent = n.classList.contains('open') ? '✕' : '☰'; });
   </script>
 </body>
 </html>
