@@ -7,7 +7,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,79 +28,112 @@
 
   <main>
     <h1 class="page-title">Projects</h1>
-    <p class="page-sub">Apps, nonprofits, and organizations I'm part of.</p>
+    <p class="page-sub">Apps, nonprofits, organizations, and experiences.</p>
 
     <div class="grid grid-2">
-      <div class="card">
-        <h3>GhostLink</h3>
-        <div class="role">Creator &middot; Feb 2025</div>
-        <div class="desc">
-          <p>End-to-end encrypted text messaging app built entirely on my own. Features include GIF support, custom themes, secret games, and a hidden interface.</p>
-          <p>Developed the full stack &mdash; backend, frontend, and deployment. Ported (unofficially) to iOS, Tizen OS, macOS, Windows, and Linux.</p>
-        </div>
-        <div class="tags">
-          <span class="tag">E2E Encryption</span>
-          <span class="tag">Multi-Platform</span>
-          <span class="tag">Full-Stack</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>WheresMyWater.org</h3>
-        <div class="role">Founder &middot; Jul 2026 &ndash; Present &middot; Scottsdale, AZ</div>
-        <div class="desc">
-          <p>Founded a nonprofit organization that helps people in water crises throughout Arizona find the nearest usable water sources near them.</p>
-          <p>Currently expanding to cover the rest of the United States.</p>
-        </div>
-        <div class="tags">
-          <span class="tag">Nonprofit</span>
-          <span class="tag">Web App</span>
-          <span class="tag">Public Service</span>
-          <span class="tag">Arizona</span>
+      <div class="card card-img">
+        <img src="images/messaging.jpg" alt="GhostLink">
+        <div class="card-body">
+          <h3>GhostLink</h3>
+          <div class="role">Creator &middot; Feb 2025</div>
+          <div class="desc">
+            <p>End-to-end encrypted text messaging app built entirely on my own. Features include GIF support, custom themes, secret games, and a hidden interface.</p>
+            <p>Developed the full stack &mdash; backend, frontend, and deployment. Ported (unofficially) to iOS, Tizen OS, macOS, Windows, and Linux.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">E2E Encryption</span>
+            <span class="tag">Multi-Platform</span>
+            <span class="tag">Full-Stack</span>
+          </div>
         </div>
       </div>
 
-      <div class="card">
-        <h3>CubeSat Club</h3>
-        <div class="role">Committee Member &middot; Aug 2025 &ndash; Present &middot; Brophy</div>
-        <div class="desc">
-          <p>Influential member of Brophy's CubeSat Club. Helped launch 3 satellites.</p>
-          <p>Discussed with ASU's Molecular Technology Foundry center, visited their facilities, and learned about solar cell creation.</p>
-        </div>
-        <div class="tags">
-          <span class="tag">Satellites</span>
-          <span class="tag">Aerospace</span>
-          <span class="tag">Solar Cells</span>
-          <span class="tag">ASU MTF</span>
+      <div class="card card-img">
+        <img src="images/water.jpg" alt="WheresMyWater.org">
+        <div class="card-body">
+          <h3><a href="https://wheresmywater.org" target="_blank" rel="noopener">WheresMyWater.org</a></h3>
+          <div class="role">Founder &middot; Jul 2026 &ndash; Present &middot; Scottsdale, AZ</div>
+          <div class="desc">
+            <p>Founded a nonprofit organization that helps people in water crises throughout Arizona find the nearest usable water sources near them.</p>
+            <p>Currently expanding to cover the rest of the United States.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">Nonprofit</span>
+            <span class="tag">Web App</span>
+            <span class="tag">Public Service</span>
+            <span class="tag">Arizona</span>
+          </div>
         </div>
       </div>
 
-      <div class="card">
-        <h3>The Loving Library</h3>
-        <div class="role">Ambassador &middot; Jan 2024 &ndash; Present &middot; Phoenix, AZ</div>
-        <div class="desc">
-          <p>Public ambassador for The Loving Library nonprofit. Work directly with the organization and participate in their events.</p>
-          <p>Help fundraise and promote events to increase community reach and impact.</p>
+      <div class="card card-img">
+        <img src="images/satellite.jpg" alt="CubeSat Club">
+        <div class="card-body">
+          <h3>CubeSat Club</h3>
+          <div class="role">Committee Member &middot; Aug 2025 &ndash; Present &middot; Brophy</div>
+          <div class="desc">
+            <p>Influential member of Brophy's CubeSat Club. Helped launch 3 satellites.</p>
+            <p>Discussed with ASU's Molecular Technology Foundry center, visited their facilities, and learned about solar cell creation.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">Satellites</span>
+            <span class="tag">Aerospace</span>
+            <span class="tag">Solar Cells</span>
+            <span class="tag">ASU MTF</span>
+          </div>
         </div>
-        <div class="tags">
-          <span class="tag">Nonprofit</span>
-          <span class="tag">Community</span>
-          <span class="tag">Fundraising</span>
+      </div>
+
+      <div class="card card-img">
+        <img src="images/library.jpg" alt="The Loving Library">
+        <div class="card-body">
+          <h3>The Loving Library</h3>
+          <div class="role">Ambassador &middot; Jan 2024 &ndash; Present &middot; Phoenix, AZ</div>
+          <div class="desc">
+            <p>Public ambassador for The Loving Library nonprofit. Work directly with the organization and participate in their events.</p>
+            <p>Help fundraise and promote events to increase community reach and impact.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">Nonprofit</span>
+            <span class="tag">Community</span>
+            <span class="tag">Fundraising</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-img">
+        <img src="images/peru.jpg" alt="Peru Immersion">
+        <div class="card-body">
+          <h3>Peru Immersion</h3>
+          <div class="role">Brophy College Preparatory &middot; 2026</div>
+          <div class="desc">
+            <p>Participated in Brophy's Peru immersion trip, an experience focused on service, cultural exchange, and understanding communities in the Sacred Valley and surrounding regions.</p>
+            <p>Engaged with local organizations, contributed to community projects, and gained perspective on global development challenges firsthand.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">Service</span>
+            <span class="tag">Immersion</span>
+            <span class="tag">Peru</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-img">
+        <img src="images/debate.jpg" alt="Speech & Debate">
+        <div class="card-body">
+          <h3>Speech &amp; Debate</h3>
+          <div class="role">Policy Debate &middot; Brophy &middot; Aug 2025 &ndash; Present</div>
+          <div class="desc">
+            <p>Rising Policy Debate member at Brophy College Preparatory. Attend weekly meetings and have participated in multiple events, including events with the Arizona House of Representatives.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">Policy Debate</span>
+            <span class="tag">Public Speaking</span>
+          </div>
         </div>
       </div>
     </div>
   </main>
-
-  <footer>
-    <div>
-      <div class="label">Education</div>
-      <div class="val"><strong>Brophy College Preparatory</strong> &middot; Phoenix, AZ<br>Class of 2029 &middot; 4.0 GPA</div>
-    </div>
-    <div>
-      <div class="label">Technical Skills</div>
-      <div class="val">Advanced in <strong>C++</strong>, <strong>HTML/CSS</strong>. Proficient in <strong>Python</strong>.</div>
-    </div>
-  </footer>
 
   <script>
     var t = document.getElementById('nav-toggle'), n = document.getElementById('nav-links');
