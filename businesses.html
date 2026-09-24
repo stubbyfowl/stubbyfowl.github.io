@@ -7,7 +7,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,30 +23,53 @@
         <a href="hobby-projects.html">Fun</a>
         <a href="sports.html">Sports</a>
         <a href="hobbies.html">Hobbies</a>
+        <a class="nav-cta" href="Sidak_Mann_Resume.pdf" target="_blank" rel="noopener">Resume</a>
       </div>
       <button class="nav-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
     </div>
   </nav>
 
   <main>
-    <h1 class="page-title">Businesses</h1>
-    <p class="page-sub">Companies I've founded and operate.</p>
+    <header class="page-head">
+      <div class="eyebrow">Ventures</div>
+      <h1 class="page-title">Businesses</h1>
+      <p class="page-sub">Companies I've founded and run, from hardware to web.</p>
+    </header>
 
     <div class="grid grid-2">
+      <article class="card card-img card-feature">
+        <img src="images/bench.jpg" alt="Embedded debugging bench">
+        <div class="card-body">
+          <h3><a href="https://strygonia.com" target="_blank" rel="noopener">Strygonia</a></h3>
+          <div class="role">Co-Founder &middot; Firmware &amp; Software &middot; 2026 &ndash; Present</div>
+          <div class="desc">
+            <p>Strygonia makes precision bench instruments for embedded engineers. Its first product, BlackBox, is a flight recorder for circuit boards. You clip it onto a breadboard, Raspberry Pi, or custom PCB and leave it running. It keeps a rolling record of power-rail voltage, current, UART output, resets, and GPIO on one shared clock, so when a board crashes you scrub back and watch what happened.</p>
+            <p>I write the STM32 firmware and the desktop timeline app for macOS, Windows, and Linux. I also built strygonia.com, where preorders are open for the $198.99 Founder's Edition through an embedded Stripe checkout.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">STM32</span>
+            <span class="tag">Firmware</span>
+            <span class="tag">Desktop App</span>
+            <span class="tag">Stripe</span>
+            <span class="tag">Hardware</span>
+          </div>
+        </div>
+      </article>
+
       <div class="card card-img">
         <img src="images/hardware.jpg" alt="Arktos Systems">
         <div class="card-body">
           <h3><a href="https://arktossystems.com" target="_blank" rel="noopener">Arktos Systems</a></h3>
-          <div class="role">Founder &middot; May 2025 &ndash; Present &middot; Phoenix, AZ</div>
+          <div class="role">Co-Founder &middot; May 2025 &ndash; Present &middot; Phoenix, AZ</div>
           <div class="desc">
-            <p>Two-person hardware startup building the BlackBox product. I developed all the code, including complex tracking mechanisms and integration with STM23 chipsets.</p>
-            <p>Built the entire full-stack application from backend to frontend to deployment. Also managed shipments, created advertising campaigns, and designed packaging for the product.</p>
+            <p>Two-person hardware startup building BlackBox, a standalone flight-recorder PCB that captures voltage, current, GPIO, and UART activity from a target board for embedded debugging. I own all the firmware and software, built on an STM32H743 with microSD logging.</p>
+            <p>Took V1 from schematic to fabricated, assembled hardware through the JLCPCB PCBA pipeline, including the BOM, CPL files, and real LCSC part sourcing. I built the company site in React, TypeScript, and Vite on Vercel, and I also handle packaging design, ads, and shipping.</p>
           </div>
           <div class="tags">
             <span class="tag">C++</span>
             <span class="tag">Hardware</span>
-            <span class="tag">Full-Stack</span>
-            <span class="tag">STM23</span>
+            <span class="tag">KiCad</span>
+            <span class="tag">STM32</span>
             <span class="tag">Embedded</span>
           </div>
         </div>

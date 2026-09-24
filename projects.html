@@ -7,7 +7,9 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -21,17 +23,58 @@
         <a href="hobby-projects.html">Fun</a>
         <a href="sports.html">Sports</a>
         <a href="hobbies.html">Hobbies</a>
+        <a class="nav-cta" href="Sidak_Mann_Resume.pdf" target="_blank" rel="noopener">Resume</a>
       </div>
       <button class="nav-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
     </div>
   </nav>
 
   <main>
-    <h1 class="page-title">Projects</h1>
-    <p class="page-sub">Apps, nonprofits, organizations, and experiences.</p>
+    <header class="page-head">
+      <div class="eyebrow">Builds &amp; Impact</div>
+      <h1 class="page-title">Projects</h1>
+      <p class="page-sub">Apps, nonprofits, organizations, and experiences.</p>
+    </header>
 
     <div class="grid grid-2">
-      <div class="card card-img">
+      <article class="card card-img card-feature">
+        <span class="badge">Featured on ABC15</span>
+        <img src="images/water.jpg" alt="WheresMyWater.org">
+        <div class="card-body">
+          <h3><a href="https://wheresmywater.org" target="_blank" rel="noopener">WheresMyWater.org</a></h3>
+          <div class="role">Founder &middot; Jul 2026 &ndash; Present &middot; Scottsdale, AZ</div>
+          <div class="desc">
+            <p>Built after the Rio Verde Foothills water crisis left hundreds of Arizona families searching for answers. Enter any Arizona address and WheresMyWater.org shows your water provider, nearby water haulers, and other resources in one place.</p>
+            <p>The free tool pulls together public data from state and federal sources so people can find help before an emergency. It is now expanding to the rest of the United States.</p>
+            <p>As seen on ABC15: <a href="https://www.abc15.com/news/uplifting-arizona/watch-phoenix-teen-builds-water-resource-inspired-by-arizona-crisis" target="_blank" rel="noopener">&ldquo;Phoenix teen builds water resource inspired by Arizona crisis&rdquo;</a></p>
+          </div>
+          <div class="tags">
+            <span class="tag">Nonprofit</span>
+            <span class="tag">Web App</span>
+            <span class="tag">Public Service</span>
+            <span class="tag">Arizona</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-img">
+        <img src="images/peru.jpg" alt="Peru">
+        <div class="card-body">
+          <h3>One Month of Service in Peru</h3>
+          <div class="role">Brophy Immersion &middot; 2026</div>
+          <div class="desc">
+            <p>Spent a full month in Peru doing hard physical labor and service every day with Brophy's immersion program.</p>
+            <p>Worked alongside communities facing far harder water access than Arizona. That experience is a big part of why I built WheresMyWater.org.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">Service</span>
+            <span class="tag">Manual Labor</span>
+            <span class="tag">Peru</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-img">
         <img src="images/messaging.jpg" alt="GhostLink">
         <div class="card-body">
           <h3>GhostLink</h3>
@@ -46,28 +89,9 @@
             <span class="tag">Full-Stack</span>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="card card-img">
-        <img src="images/water.jpg" alt="WheresMyWater.org">
-        <div class="card-body">
-          <h3><a href="https://wheresmywater.org" target="_blank" rel="noopener">WheresMyWater.org</a></h3>
-          <div class="role">Founder &middot; Jul 2026 &ndash; Present &middot; Scottsdale, AZ</div>
-          <div class="desc">
-            <p>Founded a nonprofit organization that helps people in water crises throughout Arizona find the nearest usable water sources near them.</p>
-            <p>Currently expanding to cover the rest of the United States.</p>
-            <p>Featured on ABC15: <a href="https://www.abc15.com/news/uplifting-arizona/watch-phoenix-teen-builds-water-resource-inspired-by-arizona-crisis" target="_blank" rel="noopener">&ldquo;Phoenix teen builds water resource inspired by Arizona crisis&rdquo;</a></p>
-          </div>
-          <div class="tags">
-            <span class="tag">Nonprofit</span>
-            <span class="tag">Web App</span>
-            <span class="tag">Public Service</span>
-            <span class="tag">Arizona</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card card-img">
+      <article class="card card-img">
         <img src="images/satellite.jpg" alt="CubeSat Club">
         <div class="card-body">
           <h3>CubeSat Club</h3>
@@ -83,9 +107,24 @@
             <span class="tag">ASU MTF</span>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="card card-img">
+      <article class="card card-img">
+        <img src="images/debate.jpg" alt="Speech & Debate">
+        <div class="card-body">
+          <h3>Speech &amp; Debate</h3>
+          <div class="role">Policy Debate &middot; Brophy &middot; Aug 2025 &ndash; Present</div>
+          <div class="desc">
+            <p>Rising Policy Debate member at Brophy College Preparatory. Attend weekly meetings and have participated in multiple events, including events with the Arizona House of Representatives.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">Policy Debate</span>
+            <span class="tag">Public Speaking</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-img">
         <img src="images/library.jpg" alt="The Loving Library">
         <div class="card-body">
           <h3>The Loving Library</h3>
@@ -100,40 +139,32 @@
             <span class="tag">Fundraising</span>
           </div>
         </div>
-      </div>
+      </article>
 
-      <div class="card card-img">
-        <img src="images/peru.jpg" alt="Peru Immersion">
-        <div class="card-body">
-          <h3>Peru Immersion</h3>
-          <div class="role">Brophy College Preparatory &middot; 2026</div>
-          <div class="desc">
-            <p>Participated in Brophy's Peru immersion trip, an experience focused on service, cultural exchange, and understanding communities in the Sacred Valley and surrounding regions.</p>
-            <p>Engaged with local organizations, contributed to community projects, and gained perspective on global development challenges firsthand.</p>
-          </div>
-          <div class="tags">
-            <span class="tag">Service</span>
-            <span class="tag">Immersion</span>
-            <span class="tag">Peru</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="card card-img">
-        <img src="images/debate.jpg" alt="Speech & Debate">
-        <div class="card-body">
-          <h3>Speech &amp; Debate</h3>
-          <div class="role">Policy Debate &middot; Brophy &middot; Aug 2025 &ndash; Present</div>
-          <div class="desc">
-            <p>Rising Policy Debate member at Brophy College Preparatory. Attend weekly meetings and have participated in multiple events, including events with the Arizona House of Representatives.</p>
-          </div>
-          <div class="tags">
-            <span class="tag">Policy Debate</span>
-            <span class="tag">Public Speaking</span>
-          </div>
-        </div>
-      </div>
     </div>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Software</div>
+          <h2>More builds</h2>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <article class="card mini">
+          <div class="kicker">Android &middot; Kotlin &middot; 2026</div>
+          <h3>RomExplorer</h3>
+          <p>An Android app built with Kotlin and Jetpack Compose for managing a local ROM library on an Odin 3 handheld. It scans folders through Android's Storage Access Framework, stores data in Room, and pulls game info from ScreenScraper.fr. I fixed a SecurityException caused by incorrect persistable-URI permissions by debugging with ADB logcat.</p>
+          <div class="tags"><span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span><span class="tag">Room</span><span class="tag">ADB</span></div>
+        </article>
+        <article class="card mini">
+          <div class="kicker">Systems &middot; 2025</div>
+          <h3>Fortran Compiler</h3>
+          <p>A working compiler I wrote from scratch. It covers the full pipeline, from lexing and parsing source code to generating output.</p>
+          <div class="tags"><span class="tag">Compilers</span><span class="tag">Lexing</span><span class="tag">Parsing</span><span class="tag">Codegen</span></div>
+        </article>
+      </div>
+    </section>
   </main>
 
   <script>
