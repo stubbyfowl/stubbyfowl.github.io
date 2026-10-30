@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sidak Mann — Research: Reviving NASP</title>
+  <meta name="description" content="How Sidak Mann diagnosed and fixed the bioconda package for NASP, a published pathogen-genomics pipeline, producing its first new builds in over six years.">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">SIDAK MANN</a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">About</a>
+        <a href="research.html" class="active">Research</a>
+        <a href="businesses.html">Businesses</a>
+        <a href="projects.html">Projects</a>
+        <a href="hobby-projects.html">Fun</a>
+        <a href="sports.html">Sports</a>
+        <a href="hobbies.html">Hobbies</a>
+        <a class="nav-cta" href="Sidak_Mann_Resume.pdf" target="_blank" rel="noopener">Resume</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+    </div>
+  </nav>
+
+  <main>
+    <header class="page-head">
+      <div class="eyebrow">Research Software &middot; NAU Pathogen and Microbiome Institute</div>
+      <h1 class="page-title">Reviving NASP</h1>
+      <p class="page-sub">NASP is a published pipeline that researchers use to compare bacterial genomes, for example to tell how closely related outbreak samples are. Its install package had been broken for years. Working with Dr. Jason Sahl, the paper's first author, I found out why, fixed it, and got the fixes shipped to bioconda.</p>
+    </header>
+
+    <section class="stats" aria-label="Project at a glance">
+      <div class="stat"><span class="num">6+</span><span class="lbl"><strong>Years without a new build</strong>until my first fix was merged</span></div>
+      <div class="stat"><span class="num">25</span><span class="lbl"><strong>Logged test runs</strong>each in a clean Linux container</span></div>
+      <div class="stat"><span class="num">4</span><span class="lbl"><strong>Root causes found</strong>plus a hidden build blacklist</span></div>
+      <div class="stat"><span class="num">100%</span><span class="lbl"><strong>Identical output</strong>to the expected results, byte for byte</span></div>
+    </section>
+
+    <div class="grid grid-2 pr-row">
+      <a class="card pr-card" href="https://github.com/bioconda/bioconda-recipes/pull/70212" target="_blank" rel="noopener">
+        <span class="status status-merged">Merged &middot; Oct 27, 2026</span>
+        <h3>Pull request #1: packaging fixes</h3>
+        <p>Made the package build and install correctly again. Produced the first new NASP builds since August 2020.</p>
+        <span class="card-link">View on GitHub &rarr;</span>
+      </a>
+      <a class="card pr-card" href="https://github.com/bioconda/bioconda-recipes/pull/70958" target="_blank" rel="noopener">
+        <span class="status status-review">In review &middot; all checks passing</span>
+        <h3>Pull request #2: code fixes</h3>
+        <p>Updates NASP's code so it runs on current Python and current samtools, and pins the Java version GATK needs.</p>
+        <span class="card-link">View on GitHub &rarr;</span>
+      </a>
+    </div>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">The problem</div>
+          <h2>It installed perfectly and didn't work</h2>
+        </div>
+      </div>
+      <div class="split">
+        <div class="prose">
+          <p>Running <code>conda install nasp</code> finished without a single error. Every quick check I could run without actually using the tool also passed. But the first time NASP tried to process an alignment, it crashed.</p>
+          <p>Every alignment in NASP passes through a tool called samtools, and the samtools version the package pinned couldn't even start. So the pipeline died before it processed a single read, and nobody had been able to publish a fixed build since 2020.</p>
+          <p>The lesson that shaped the whole project: <strong>a dry run only checks that packages fit together. It never runs them.</strong> From then on I tested by actually running things.</p>
+        </div>
+        <figure class="term" aria-label="The real error from a fresh install">
+          <div class="term-bar"><span></span><span></span><span></span></div>
+<pre><span class="t-dim">$ conda install nasp</span>
+<span class="t-ok">done</span>
+<span class="t-dim">$ samtools --version</span>
+<span class="t-err">samtools: error while loading shared
+libraries: libncurses.so.5: cannot open
+shared object file: No such file or
+directory</span>
+<span class="t-dim">$ ldd $(which samtools) | grep ncurses</span>
+  libncurses.so.5 =&gt; <span class="t-err">not found</span></pre>
+          <figcaption>The real output from a fresh install (test run 10)</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Diagnosis</div>
+          <h2>What was actually broken</h2>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <article class="card">
+          <div class="role">Root cause 1 &middot; The crash</div>
+          <h3>A samtools build missing a library</h3>
+          <div class="desc">
+            <p>The recipe pinned samtools below 1.3, which picked version 1.2. That build needs a system library (ncurses) but never declared it, so nothing installed it and the program couldn't load.</p>
+            <p><strong>Fix:</strong> pin samtools 1.1 instead. Its build declares the library correctly and still understands NASP's commands. I tested this directly against four samtools versions.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="role">Root cause 2 &middot; No new builds</div>
+          <h3>One line of shell broke every build</h3>
+          <div class="desc">
+            <p>The build script overwrote NASP's Go module file with a one-line version that dropped a dependency. Older Go versions quietly fixed that. Go 1.16 made it a hard error, so the build broke without anyone changing NASP.</p>
+            <p><strong>Fix:</strong> delete that one line.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="role">Root cause 3 &middot; Hidden</div>
+          <h3>A blacklist nobody remembered</h3>
+          <div class="desc">
+            <p>When that build failure hit bioconda's 2021 mass rebuild, NASP was added to a list of recipes the system stops trying to build. That's why the failure stayed invisible for years.</p>
+            <p><strong>Fix:</strong> remove NASP from the blacklist.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="role">Root cause 4 &middot; Modern Python</div>
+          <h3>A removed Python module</h3>
+          <div class="desc">
+            <p>NASP found its own bundled files with <code>pkg_resources</code>, which setuptools deleted. I pinned down exactly when: version 81.0.0 has it, 82.0.0 doesn't.</p>
+            <p><strong>Fix:</strong> a temporary version pin, then a real code fix using Python's built-in <code>importlib.resources</code> at all 4 places NASP used it.</p>
+          </div>
+        </article>
+        <article class="card card-wide">
+          <div class="role">Root cause 5 &middot; Modern samtools</div>
+          <h3>The fix that silently failed</h3>
+          <div class="desc">
+            <p>NASP sorts alignments with an old samtools command that newer versions reject. The obvious replacement looked fine, but when I tested it on samtools 1.1 it wrote no output file and still reported success. A small extra flag (<code>-T</code>) makes it work on 1.1, 1.9, and 1.24. This is why I tested every fix instead of trusting it.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Proof</div>
+          <h2>How I know it works</h2>
+        </div>
+      </div>
+      <div class="grid grid-2">
+        <article class="card">
+          <h3>Same answer, byte for byte</h3>
+          <ul class="proof">
+            <li>Ran the <strong>full pipeline</strong> on NASP's own example dataset: alignment, SNP calling, an external genome, and the duplicate-region check</li>
+            <li>Ran it three ways: the original code, my fixed code, and my fixed code on the newest samtools</li>
+            <li>All three produced output <strong>byte-identical</strong> to each other and to the expected results in the repository: <strong>3,977 positions and the same 5 SNPs</strong></li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>How I tested</h3>
+          <ul class="proof">
+            <li>Every test ran in a <strong>fresh Ubuntu container</strong> with nothing carried over, and every run's raw output is saved</li>
+            <li>No claim without a command behind it. That rule disproved <strong>8 assumptions</strong>, including the starting premise of the whole project</li>
+            <li>Caught two mistakes in my own method: Linux versions solved from a Mac came out stale, and a piped command was hiding a failure. I re-ran both</li>
+            <li>Checked the recipes with bioconda's own linter and build tools before submitting</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Judgment</div>
+          <h2>What I left out on purpose</h2>
+        </div>
+      </div>
+      <p class="section-note">Some problems aren't packaging bugs. Fixing them would change which SNPs NASP reports, so they're research decisions for the lab, not for me.</p>
+      <div class="grid grid-3">
+        <article class="card mini">
+          <div class="kicker">Retired, with approval</div>
+          <h3>The SAMtools SNP caller</h3>
+          <p>Its 2013-era command fails on every bcftools version still packaged. Rewriting it would change results, so with Dr. Sahl's approval I removed it from the menu instead.</p>
+        </article>
+        <article class="card mini">
+          <div class="kicker">Needs validation</div>
+          <h3>Moving to GATK 4</h3>
+          <p>NASP's caller doesn't exist in GATK 4. Its replacement calls SNPs differently, so switching would need scientific revalidation.</p>
+        </article>
+        <article class="card mini">
+          <div class="kicker">Untested</div>
+          <h3>MUMmer 4</h3>
+          <p>It looks compatible on paper, but its defaults changed. MUMmer 3.23 works, so I left it rather than guess.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Process</div>
+          <h2>How the project ran</h2>
+        </div>
+      </div>
+      <div class="split">
+        <ol class="timeline">
+          <li><b>Sep 1</b><span>Committed to a full diagnosis within two weeks</span></li>
+          <li><b>Sep 15</b><span>Delivered the diagnosis: 18 test runs, a dependency audit, and a 10-step plan</span></li>
+          <li><b>Oct 7&ndash;9</b><span>Wrote and validated the fixes</span></li>
+          <li><b>Oct 12</b><span>Dr. Sahl approved submitting. Opened pull request #1</span></li>
+          <li><b>Oct 27</b><span>Pull request #1 merged by a bioconda maintainer</span></li>
+          <li><b>Oct 29&ndash;30</b><span>Opened pull request #2 with the code fixes, and added a Java fix after Dr. Sahl reported a problem on the lab's cluster</span></li>
+        </ol>
+        <div class="prose">
+          <p>I set the rules for the project, made the scope and shipping decisions, kept Dr. Sahl updated, and opened both pull requests.</p>
+          <p>I worked with <strong>Claude Code</strong>, an AI coding agent, as my pair. It ran the containers, builds, and test matrices, and drafted code and reports. I directed the work and made the calls on what to test, what to fix, and what to leave alone.</p>
+          <div class="link-list">
+            <a href="https://github.com/stubbyfowl/NASP/tree/fix/modernize-deps" target="_blank" rel="noopener">My code fixes on GitHub &rarr;</a>
+            <a href="https://anaconda.org/bioconda/nasp" target="_blank" rel="noopener">NASP on bioconda &rarr;</a>
+            <a href="https://doi.org/10.1099/mgen.0.000074" target="_blank" rel="noopener">The NASP paper (Microbial Genomics, 2016) &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    var t = document.getElementById('nav-toggle'), n = document.getElementById('nav-links');
+    if (t) t.addEventListener('click', function() { n.classList.toggle('open'); t.textContent = n.classList.contains('open') ? '✕' : '☰'; });
+  </script>
+</body>
+</html>
