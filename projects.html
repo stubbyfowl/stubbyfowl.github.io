@@ -21,9 +21,8 @@
         <a href="research.html">Research</a>
         <a href="businesses.html">Businesses</a>
         <a href="projects.html" class="active">Projects</a>
-        <a href="hobby-projects.html">Fun</a>
         <a href="sports.html">Sports</a>
-        <a href="hobbies.html">Hobbies</a>
+        <a href="hobby-projects.html">Fun</a>
         <a class="nav-cta" href="Sidak_Mann_Resume.pdf" target="_blank" rel="noopener">Resume</a>
       </div>
       <button class="nav-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
@@ -34,14 +33,21 @@
     <header class="page-head">
       <div class="eyebrow">Builds &amp; Impact</div>
       <h1 class="page-title">Projects</h1>
-      <p class="page-sub">Apps, nonprofits, and experiences with real-world impact.</p>
+      <p class="page-sub">Service, software, and leadership: the work I do outside my companies and research.</p>
     </header>
 
-    <div class="grid grid-2">
-      <article class="card card-img card-feature">
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Impact &amp; Service</div>
+          <h2>Making a difference</h2>
+        </div>
+      </div>
+      <div class="grid grid-2">
+      <article class="card card-img card-feature" id="wheresmywater">
         <span class="badge">Featured on ABC15</span>
         <img src="images/water.jpg" alt="WheresMyWater.org">
-        <div class="card-body" id="wheresmywater">
+        <div class="card-body">
           <h3><a href="https://wheresmywater.org" target="_blank" rel="noopener">WheresMyWater.org</a></h3>
           <div class="role">Founder &middot; Jul 2026 &ndash; Present &middot; Scottsdale, AZ</div>
           <div class="desc">
@@ -58,9 +64,9 @@
         </div>
       </article>
 
-      <article class="card card-img">
+      <article class="card card-img" id="peru">
         <img src="images/peru.jpg" alt="Peru">
-        <div class="card-body" id="peru">
+        <div class="card-body">
           <h3>A Month of Hard Labor in Peru</h3>
           <div class="role">Brophy Immersion &middot; 2026</div>
           <div class="desc">
@@ -75,9 +81,36 @@
         </div>
       </article>
 
-      <article class="card card-img">
+      <article class="card card-img" id="loving-library">
+        <img src="images/library.jpg" alt="The Loving Library">
+        <div class="card-body">
+          <h3>The Loving Library</h3>
+          <div class="role">Ambassador &middot; Jan 2024 &ndash; Present &middot; Phoenix, AZ</div>
+          <div class="desc">
+            <p>The Loving Library's public ambassador since 2024. I represent the nonprofit at its events.</p>
+            <p>I raise money and promote its events to grow its reach across the community.</p>
+          </div>
+          <div class="tags">
+            <span class="tag">Nonprofit</span>
+            <span class="tag">Community</span>
+            <span class="tag">Fundraising</span>
+          </div>
+        </div>
+      </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Software</div>
+          <h2>Things I've built</h2>
+        </div>
+      </div>
+      <div class="grid grid-2">
+      <article class="card card-img card-feature" id="ghostlink">
         <img src="images/messaging.jpg" alt="GhostLink">
-        <div class="card-body" id="ghostlink">
+        <div class="card-body">
           <h3>GhostLink</h3>
           <div class="role">Creator &middot; Feb 2025</div>
           <div class="desc">
@@ -92,9 +125,51 @@
         </div>
       </article>
 
-      <article class="card card-img">
+      <article class="card card-wide misc" id="misc-coding">
+        <div class="role">Side Builds &middot; Python &middot; Kotlin &middot; Luau &middot; JavaScript</div>
+        <h3>Misc. Coding</h3>
+        <p class="misc-intro">Everything else I've built, from tools I run my business on to things I made just because.</p>
+        <ul class="misc-list">
+          <li>
+            <div class="misc-top"><b>MALGS, MERL &amp; MOTE</b><span>Python &middot; 2026</span></div>
+            <p>A three-part outreach toolkit for my web studio. MALGS scrapes Google Maps and Yellow Pages to find Phoenix-area businesses with no website. MERL sends personalized email across rotating inboxes with CAN-SPAM rules built in. MOTE texts opt-in contacts through Twilio and refuses any list without proof of consent.</p>
+          </li>
+          <li>
+            <div class="misc-top"><b>Trading Bots</b><span>Python &middot; 2026</span></div>
+            <p>A rack of stock-trading bots that share one broker connection, risk limits, and execution engine, so a new bot is just a config file. Backtested at up to 29.5% annual growth.</p>
+          </li>
+          <li>
+            <div class="misc-top"><b>Sneak a Giant Egg</b><span>Roblox &middot; Luau &middot; In development</span></div>
+            <p>A Roblox heist game: sneak into a sleeping giant's nest, steal its egg, and freeze when its eye opens. Built across client, server, and shared code, with a full design doc and a generated in-game economy.</p>
+          </li>
+          <li>
+            <div class="misc-top"><b><a href="https://github.com/stubbyfowl/romexplorer" target="_blank" rel="noopener">RomExplorer</a> &amp; RetroBacklog</b><span>Android &middot; Kotlin &middot; 2026</span></div>
+            <p>Two native Android apps for my AYN Odin 3 handheld, built with Jetpack Compose and Room. RomExplorer manages a ROM library with ScreenScraper metadata, and RetroBacklog is an offline tracker for my retro game backlog.</p>
+          </li>
+          <li>
+            <div class="misc-top"><b><a href="https://github.com/stubbyfowl/fsrtup" target="_blank" rel="noopener">Fortran Compiler</a></b><span>Systems &middot; 2025</span></div>
+            <p>A working compiler I wrote from scratch, covering the full pipeline from lexing and parsing to code generation.</p>
+          </li>
+          <li>
+            <div class="misc-top"><b><a href="https://github.com/stubbyfowl/Computer_Coding_SM-main" target="_blank" rel="noopener">Browser Experiments</a></b><span>JavaScript &middot; 2026</span></div>
+            <p>Four interactive browser builds, including a meteor-defense game and a seasonal tree simulation, wrapped in deliberately over-the-top "AI slop" satire.</p>
+          </li>
+        </ul>
+      </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Clubs &amp; Leadership</div>
+          <h2>At Brophy</h2>
+        </div>
+      </div>
+      <div class="grid grid-2">
+      <article class="card card-img" id="cubesat">
         <img src="images/satellite.jpg" alt="CubeSat Club">
-        <div class="card-body" id="cubesat">
+        <div class="card-body">
           <h3>CubeSat Club</h3>
           <div class="role">Committee Member &middot; Aug 2025 &ndash; Present &middot; Brophy</div>
           <div class="desc">
@@ -110,9 +185,9 @@
         </div>
       </article>
 
-      <article class="card card-img">
+      <article class="card card-img" id="debate">
         <img src="images/debate.jpg" alt="Speech & Debate">
-        <div class="card-body" id="debate">
+        <div class="card-body">
           <h3>Speech &amp; Debate</h3>
           <div class="role">Policy Debate &middot; Brophy &middot; Aug 2025 &ndash; Present</div>
           <div class="desc">
@@ -124,46 +199,6 @@
           </div>
         </div>
       </article>
-
-      <article class="card card-img">
-        <img src="images/library.jpg" alt="The Loving Library">
-        <div class="card-body" id="loving-library">
-          <h3>The Loving Library</h3>
-          <div class="role">Ambassador &middot; Jan 2024 &ndash; Present &middot; Phoenix, AZ</div>
-          <div class="desc">
-            <p>The Loving Library's public ambassador since 2024. I represent the nonprofit at its events.</p>
-            <p>I raise money and promote its events to grow its reach across the community.</p>
-          </div>
-          <div class="tags">
-            <span class="tag">Nonprofit</span>
-            <span class="tag">Community</span>
-            <span class="tag">Fundraising</span>
-          </div>
-        </div>
-      </article>
-
-    </div>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow">Software</div>
-          <h2>More builds</h2>
-        </div>
-      </div>
-      <div class="grid grid-2">
-        <article class="card mini" id="romexplorer">
-          <div class="kicker">Android &middot; Kotlin &middot; 2026</div>
-          <h3>RomExplorer</h3>
-          <p>An Android app built with Kotlin and Jetpack Compose for managing a local ROM library on an Odin 3 handheld. It scans folders through Android's Storage Access Framework, stores data in Room, and pulls game info from ScreenScraper.fr. I fixed a SecurityException caused by incorrect persistable-URI permissions by debugging with ADB logcat.</p>
-          <div class="tags"><span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span><span class="tag">Room</span><span class="tag">ADB</span></div>
-        </article>
-        <article class="card mini" id="fortran">
-          <div class="kicker">Systems &middot; 2025</div>
-          <h3>Fortran Compiler</h3>
-          <p>A working compiler I wrote from scratch. It covers the full pipeline, from lexing and parsing source code to generating output.</p>
-          <div class="tags"><span class="tag">Compilers</span><span class="tag">Lexing</span><span class="tag">Parsing</span><span class="tag">Codegen</span></div>
-        </article>
       </div>
     </section>
   </main>
