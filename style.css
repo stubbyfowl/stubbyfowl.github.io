@@ -161,6 +161,7 @@ main {
   margin-bottom: 14px;
 }
 .page-sub { font-size: 17px; color: var(--muted); line-height: 1.6; }
+.page-sub strong { color: var(--ink); font-weight: 600; }
 
 .section { margin-top: 88px; }
 .section-head {
