@@ -207,9 +207,117 @@
     </section>
   </main>
 
+
+  <style>
+    /* SONIC keyboard easter egg */
+    #sonic-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(5, 10, 24, 0.82);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 320ms ease, visibility 320ms ease;
+    }
+    #sonic-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    #sonic-window {
+      width: min(780px, 94vw);
+      height: min(600px, 82vh);
+      overflow: hidden;
+      border-radius: 16px;
+      background: #071a46;
+      box-shadow: 0 24px 90px rgba(0, 0, 0, 0.55);
+      transform: scaleY(0.02) scaleX(0.72);
+      transform-origin: center;
+      opacity: 0;
+      transition: transform 520ms cubic-bezier(.2,.8,.2,1), opacity 240ms ease;
+    }
+    #sonic-overlay.is-open #sonic-window {
+      transform: scaleY(1) scaleX(1);
+      opacity: 1;
+    }
+    #sonic-window iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    #sonic-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255,255,255,.4);
+      border-radius: 50%;
+      color: white;
+      background: rgba(255,255,255,.12);
+      font: 700 25px/1 Inter, sans-serif;
+      cursor: pointer;
+    }
+    #sonic-close:hover { background: rgba(255,255,255,.25); }
+    @media (max-width: 600px) {
+      #sonic-window { width: 96vw; height: 72vh; }
+    }
+  </style>
+  <div id="sonic-overlay" aria-hidden="true">
+    <button id="sonic-close" type="button" aria-label="Close Sonic game">×</button>
+    <div id="sonic-window">
+      <iframe
+        src="https://megadrive-emulator.com/game/?game=Sonic_the_Hedgehog.bin"
+        title="Sonic the Hedgehog — Sega Mega Drive emulator"
+        allow="fullscreen; gamepad"
+        allowfullscreen
+        loading="lazy"></iframe>
+    </div>
+  </div>
+
   <script>
     var t = document.getElementById('nav-toggle'), n = document.getElementById('nav-links');
     if (t) t.addEventListener('click', function() { n.classList.toggle('open'); t.textContent = n.classList.contains('open') ? '✕' : '☰'; });
+
+    (function () {
+      var sequence = '';
+      var overlay = document.getElementById('sonic-overlay');
+      var closeButton = document.getElementById('sonic-close');
+      var timeout;
+
+      function openSonic() {
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeSonic() {
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      document.addEventListener('keydown', function (event) {
+        if (event.ctrlKey || event.metaKey || event.altKey || event.key.length !== 1) return;
+        sequence = (sequence + event.key.toUpperCase()).slice(-5);
+        if (sequence === 'SONIC') {
+          sequence = '';
+          openSonic();
+        }
+      });
+
+      closeButton.addEventListener('click', closeSonic);
+      overlay.addEventListener('click', function (event) {
+        if (event.target === overlay) closeSonic();
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && overlay.classList.contains('is-open')) closeSonic();
+      });
+    })();
   </script>
 </body>
 </html>
