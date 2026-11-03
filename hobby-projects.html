@@ -288,9 +288,19 @@
       var sequence = '';
       var overlay = document.getElementById('sonic-overlay');
       var closeButton = document.getElementById('sonic-close');
+      var frame = overlay.querySelector('iframe');
       var timeout;
+      var games = {
+        '1': ['Sonic_the_Hedgehog.bin', 'Sonic the Hedgehog'],
+        '2': ['Sonic_the_Hedgehog_2_JUE.bin', 'Sonic the Hedgehog 2'],
+        '3': ['Sonic_3_and_Knuckles.bin', 'Sonic 3 & Knuckles']
+      };
 
-      function openSonic() {
+      function openSonic(which) {
+        var game = games[which];
+        var src = 'https://megadrive-emulator.com/game/?game=' + game[0];
+        if (frame.src !== src) frame.src = src;
+        frame.title = game[1] + ' — Sega Mega Drive emulator';
         overlay.classList.add('is-open');
         overlay.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
@@ -303,10 +313,15 @@
 
       document.addEventListener('keydown', function (event) {
         if (event.ctrlKey || event.metaKey || event.altKey || event.key.length !== 1) return;
-        sequence = (sequence + event.key.toUpperCase()).slice(-5);
-        if (sequence === 'SONIC') {
+        clearTimeout(timeout);
+        sequence = (sequence + event.key.toUpperCase()).slice(-6);
+        if (/SONIC[23]$/.test(sequence)) {
+          var which = sequence.slice(-1);
           sequence = '';
-          openSonic();
+          openSonic(which);
+        } else if (/SONIC$/.test(sequence)) {
+          // wait briefly in case a 2 or 3 follows
+          timeout = setTimeout(function () { sequence = ''; openSonic('1'); }, 700);
         }
       });
 
