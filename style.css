@@ -348,6 +348,27 @@ main {
 }
 .press:hover .press-cta { background: #fff; color: var(--blue-deep); }
 
+.upcoming {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 16px;
+  padding: 18px 24px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--blue);
+  box-shadow: var(--shadow);
+  color: var(--body);
+  text-decoration: none;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.upcoming:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.up-tag { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: #fff; background: var(--red); padding: 6px 11px; }
+.up-text { flex: 1; font-size: 16px; line-height: 1.5; }
+.up-text strong { color: var(--ink); }
+.up-arrow { font-size: 20px; color: var(--blue); }
+@media (max-width: 860px) { .upcoming { flex-wrap: wrap; } .up-arrow { display: none; } }
+
 /* ---------- Cards ---------- */
 .card {
   position: relative;
