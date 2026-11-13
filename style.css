@@ -521,6 +521,16 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .closer .hero-actions { justify-content: center; }
 
 
+/* ---------- Peru detail + polo stats ---------- */
+.peru-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+.peru-detail .timeline li:nth-last-child(2)::before { background: var(--card); }
+.peru-detail .timeline li:last-child::before { background: var(--blue); }
+.peru-detail .label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 18px; }
+.mini-stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 24px; border-top: 1px solid var(--line); }
+.mini-stats div { padding: 16px 12px 0 0; }
+.mini-stats b { display: block; font-family: var(--serif); font-size: 32px; font-weight: 800; line-height: 1; color: var(--blue); margin-bottom: 6px; }
+.mini-stats span { display: block; font-size: 12px; line-height: 1.4; color: var(--muted); }
+
 /* ---------- Two-photo cards ---------- */
 .photo-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; background: var(--card); }
 .card-feature > .photo-pair { width: 50%; flex-shrink: 0; min-height: 380px; }
@@ -659,6 +669,8 @@ a.card { display: block; text-decoration: none; color: inherit; }
   .card-feature > img { width: 100%; min-height: 0; aspect-ratio: 16 / 9; }
   .card-feature > .photo-pair { width: 100%; min-height: 0; }
   .photo-pair figure { aspect-ratio: 3 / 4; }
+  .peru-detail { grid-template-columns: 1fr; gap: 32px; }
+  .mini-stats { grid-template-columns: 1fr 1fr; }
   .card-feature .card-body { padding: 28px 26px 30px; }
   .split { grid-template-columns: 1fr; gap: 32px; }
   .misc-list { grid-template-columns: 1fr; }
