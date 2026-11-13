@@ -347,6 +347,13 @@ main {
   transition: background 0.2s, color 0.2s;
 }
 .press:hover .press-cta { background: #fff; color: var(--blue-deep); }
+.press-video { grid-template-columns: 1.45fr 1fr; gap: 36px; padding: 28px; }
+.press-video:hover { transform: none; box-shadow: var(--shadow); }
+.press-player { position: relative; aspect-ratio: 16 / 9; background: #000; box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.6); }
+.press-player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.press-info { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.press-video .press-cta { color: #fff; text-decoration: none; }
+.press-video .press-cta:hover { background: #fff; color: var(--blue-deep); }
 
 .upcoming {
   display: flex;
@@ -626,6 +633,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
   .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
   .press { grid-template-columns: 1fr; gap: 16px; padding: 28px 24px; }
   .press-cta { justify-self: start; }
+  .press-video { grid-template-columns: 1fr; padding: 18px; gap: 22px; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .card-feature { flex-direction: column; }
   .card-feature > img { width: 100%; min-height: 0; aspect-ratio: 16 / 9; }
