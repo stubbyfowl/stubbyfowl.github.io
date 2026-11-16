@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261113d">
+  <link rel="stylesheet" href="style.css?v=20261116b">
 </head>
 <body>
   <nav>
@@ -175,20 +175,40 @@
         </div>
       </div>
       <div class="grid grid-2">
-      <article class="card card-wide" id="nasa-space-apps">
-        <span class="status status-review">Upcoming &middot; Nov 14&ndash;15, 2026</span>
-        <h3 style="margin-top:14px">NASA Space Apps Challenge &mdash; Team Trojans</h3>
-        <div class="role">Team Leader &middot; Phoenix, AZ</div>
-        <div class="desc">
-          <p>I lead <strong>Team Trojans</strong> at NASA's Space Apps Challenge in Phoenix. Our challenge: build <strong>health-monitoring software for astronauts</strong> on long-duration missions.</p>
-          <p>Deep-space radiation, isolation, and altered gravity can cause immune changes, bone loss, cardiovascular events, and behavioral health problems, and far from Earth, astronauts have to spot those changes themselves. Our software will gather their health indicators and help them evaluate and act on their own health.</p>
-          <p>I'm building the team across data analysis, machine learning, visualization, UI/UX, space medicine, and writing.</p>
+      <article class="card card-img card-feature" id="nasa-space-apps">
+        <div class="card-video">
+          <div class="press-player">
+            <iframe src="https://www.youtube-nocookie.com/embed/Y-axomGXFBY?rel=0" title="Vigil: NASA Space Apps 2026 demo video by The Trojans" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
         </div>
-        <div class="tags">
-          <span class="tag">NASA</span>
-          <span class="tag">Hackathon</span>
-          <span class="tag">Health Tech</span>
-          <span class="tag">Team Lead</span>
+        <div class="card-body">
+          <span class="status status-merged">Submitted &middot; Nov 14&ndash;15, 2026</span>
+          <h3 style="margin-top:14px">Vigil &mdash; NASA Space Apps Challenge</h3>
+          <div class="role">Team Leader &middot; The Trojans &middot; Phoenix, AZ</div>
+          <div class="desc">
+            <p>I led <strong>Team Trojans</strong> at NASA's Space Apps Challenge, where our challenge was to build health-monitoring software for astronauts on long missions. We built <strong>Vigil</strong>, an offline health monitor that learns each crew member's own normal from their first ten days of readings, then watches heart, immune, bone and muscle, behavior, and radiation data for slow drift.</p>
+            <p>Vigil combines small changes across many signals into one score, explains every alert in plain words with the numbers behind it, and decides what happens next: <strong>handle it on board, tell the Medical Officer, or send a priority packet to Earth</strong> across a 22-minute communication delay.</p>
+            <p>It's grounded in real NASA science. A clickable body map ties every reading to NASA's five hazards of human spaceflight, cabin CO2 and radiation dose are judged against <strong>NASA-STD-3001</strong> limits, and real data on <strong>167 solar storms</strong> from NASA's DONKI database drives the radiation screen. It runs as a native desktop app with no internet connection, and every astronaut signs in with a PIN and chooses what to share.</p>
+            <p>To make daily check-ins something astronauts actually want to do, we added an organ group chat, texts from future you, a heart rate album, and Gut City.</p>
+          </div>
+          <div class="mini-stats">
+            <div><b>39</b><span>Data sources and references</span></div>
+            <div><b>167</b><span>Real solar storms from NASA data</span></div>
+            <div><b>10</b><span>Days to learn each astronaut's normal</span></div>
+            <div><b>0</b><span>Network connections needed</span></div>
+          </div>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">PySide6</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">SQLite</span>
+            <span class="tag">NASA DONKI</span>
+            <span class="tag">Team Lead</span>
+          </div>
+          <div class="link-row">
+            <a class="card-link" href="https://www.spaceappschallenge.org/2026/find-a-team/the-trojans/?tab=project" target="_blank" rel="noopener">Project page &rarr;</a>
+            <a class="card-link" href="https://github.com/stubbyfowl/vigil" target="_blank" rel="noopener">Code on GitHub &rarr;</a>
+          </div>
         </div>
       </article>
 

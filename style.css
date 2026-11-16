@@ -531,6 +531,10 @@ a.card { display: block; text-decoration: none; color: inherit; }
 .mini-stats b { display: block; font-family: var(--serif); font-size: 32px; font-weight: 800; line-height: 1; color: var(--blue); margin-bottom: 6px; }
 .mini-stats span { display: block; font-size: 12px; line-height: 1.4; color: var(--muted); }
 
+.card-feature > .card-video { width: 50%; flex-shrink: 0; display: flex; align-items: flex-start; padding: 28px; background: #0f1420; }
+.card-video .press-player { width: 100%; position: sticky; top: 92px; }
+.link-row { display: flex; flex-wrap: wrap; gap: 4px 24px; }
+
 /* ---------- Two-photo cards ---------- */
 .photo-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; background: var(--card); }
 .card-feature > .photo-pair { width: 50%; flex-shrink: 0; min-height: 380px; }
@@ -668,6 +672,7 @@ a.card { display: block; text-decoration: none; color: inherit; }
   .card-feature { flex-direction: column; }
   .card-feature > img { width: 100%; min-height: 0; aspect-ratio: 16 / 9; }
   .card-feature > .photo-pair { width: 100%; min-height: 0; }
+  .card-feature > .card-video { width: 100%; padding: 0; }
   .photo-pair figure { aspect-ratio: 3 / 4; }
   .peru-detail { grid-template-columns: 1fr; gap: 32px; }
   .mini-stats { grid-template-columns: 1fr 1fr; }
